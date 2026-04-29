@@ -14,6 +14,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
 .header .update-time { color: #888; font-size: 14px; }
 .header .badge { display: inline-block; background: #52c41a; color: white; padding: 2px 12px; border-radius: 12px; font-size: 12px; margin-left: 8px; }
 .header .data-note { font-size: 13px; color: #666; margin-top: 8px; background: #f5f5f5; padding: 6px 12px; border-radius: 6px; display: inline-block; }
+.history-bar { text-align: center; margin: -16px 0 24px 0; font-size: 13px; color: #888; }
+.history-bar a { color: #1890ff; text-decoration: none; margin: 0 6px; padding: 2px 10px; border-radius: 10px; background: #e6f7ff; transition: all 0.2s; }
+.history-bar a:hover { background: #1890ff; color: white; }
 .plan-section { background: white; border-radius: 16px; padding: 24px; margin-bottom: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
 .plan-section h2 { font-size: 18px; color: #1a1a2e; margin-bottom: 20px; padding-left: 12px; border-left: 4px solid #722ed1; }
 .plan-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 16px; }
@@ -146,6 +149,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
     <h1>📊 基金PE估值与净值分析报告</h1>
     <p class="update-time">报告生成时间：2026-04-29 22:05 <span class="badge">自动更新</span></p>
     <p class="data-note">📌 数据截止：净值 A股 2026-04-28 | 标普500 2026-04-28 | PE 2026-04</p>
+</div>
+
+<div class="history-bar">📂 历史报告：
+    <a href="report_20260426.html">4月26日</a>
+    <a href="report_20260427.html">4月27日</a>
+    <a href="report_20260428.html">4月28日</a>
 </div>
 
 <div class="plan-section" id="planSection"></div>
