@@ -13,12 +13,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
 .header h1 { font-size: 30px; color: #1a1a2e; margin-bottom: 8px; }
 .header .update-time { color: #888; font-size: 14px; }
 .header .badge { display: inline-block; background: #52c41a; color: white; padding: 2px 12px; border-radius: 12px; font-size: 12px; margin-left: 8px; }
+.header .data-note { font-size: 13px; color: #666; margin-top: 8px; background: #f5f5f5; padding: 6px 12px; border-radius: 6px; display: inline-block; }
 .history-bar { text-align: center; margin: -16px 0 24px 0; font-size: 13px; color: #888; }
 .history-bar a { color: #1890ff; text-decoration: none; margin: 0 6px; padding: 2px 10px; border-radius: 10px; background: #e6f7ff; transition: all 0.2s; }
 .history-bar a:hover { background: #1890ff; color: white; }
-.history-bar a.current { background: #1890ff; color: white; }
-
-/* 定投方案概览 */
 .plan-section { background: white; border-radius: 16px; padding: 24px; margin-bottom: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
 .plan-section h2 { font-size: 18px; color: #1a1a2e; margin-bottom: 20px; padding-left: 12px; border-left: 4px solid #722ed1; }
 .plan-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 16px; }
@@ -47,8 +45,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
 .plan-summary-item .sum-label { font-size: 12px; color: #999; }
 .plan-summary-item .sum-value { font-size: 20px; font-weight: 700; color: #1a1a2e; }
 .plan-rules { margin-top: 16px; padding: 12px 16px; background: #fffbe6; border-radius: 8px; border-left: 3px solid #faad14; font-size: 13px; line-height: 1.8; color: #666; }
-
-/* 估值概览卡片 */
 .pe-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 32px; }
 .pe-card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); transition: transform 0.2s; }
 .pe-card:hover { transform: translateY(-2px); }
@@ -58,20 +54,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
 .pe-card .fund-name { font-size: 13px; color: #999; margin-bottom: 16px; }
 .pe-card .pe-big { font-size: 42px; font-weight: 800; line-height: 1; }
 .pe-card .pe-unit { font-size: 14px; color: #888; margin-top: 4px; }
-
-/* PE温度条 */
 .temp-bar { position: relative; height: 24px; margin: 16px 0 8px; border-radius: 12px; background: linear-gradient(to right, #52c41a 0%, #73d13d 20%, #faad14 40%, #ffc53d 60%, #ff7a45 80%, #ff4d4f 100%); }
 .temp-marker { position: absolute; top: -4px; width: 4px; height: 32px; background: #1a1a2e; border-radius: 2px; transition: left 0.5s; }
 .temp-labels { display: flex; justify-content: space-between; font-size: 11px; color: #999; }
 .percentile-text { font-size: 16px; font-weight: 600; margin-top: 12px; }
-
-/* PE区间信息 */
 .pe-range { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; padding-top: 16px; border-top: 1px solid #f0f0f0; }
 .pe-range-item { text-align: center; }
 .pe-range-item .label { font-size: 11px; color: #999; }
 .pe-range-item .value { font-size: 16px; font-weight: 600; color: #1a1a2e; }
-
-/* 基金信息卡片 */
 .fund-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 32px; }
 .fund-card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
 .fund-card h3 { font-size: 17px; color: #1a1a2e; margin-bottom: 4px; }
@@ -83,30 +73,30 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
 .return-item { text-align: center; padding: 8px 4px; border-radius: 8px; }
 .return-item .label { font-size: 11px; color: #999; margin-bottom: 4px; }
 .return-item .value { font-size: 14px; font-weight: 600; }
-
-/* 图表区域 */
 .chart-section { background: white; border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
 .chart-section h2 { font-size: 18px; color: #1a1a2e; margin-bottom: 20px; padding-left: 12px; border-left: 4px solid #1890ff; }
+.chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.chart-header h2 { font-size: 18px; color: #1a1a2e; padding-left: 12px; border-left: 4px solid #1890ff; margin-bottom: 0; }
+.toggle-btn { padding: 6px 16px; border-radius: 20px; border: 2px solid #1890ff; background: white; color: #1890ff; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; user-select: none; }
+.toggle-btn:hover { background: #1890ff; color: white; }
+.toggle-btn.active { background: #1890ff; color: white; }
 .chart-wrapper { position: relative; height: 380px; }
 .chart-small { height: 300px; }
-
-/* 净值走势图 */
-.nav-chart-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 20px; margin-bottom: 24px; }
-
-/* 建议区域 */
+.trend-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px; }
+.trend-card { border-radius: 12px; padding: 16px; text-align: center; }
+.trend-card .trend-name { font-size: 13px; color: #666; margin-bottom: 6px; }
+.trend-card .trend-return { font-size: 22px; font-weight: 800; }
+.trend-card .trend-detail { font-size: 11px; color: #999; margin-top: 4px; }
 .advice-section { background: white; border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
 .advice-section h2 { font-size: 18px; color: #1a1a2e; margin-bottom: 20px; padding-left: 12px; border-left: 4px solid #1890ff; }
 .advice-item { margin-bottom: 20px; padding: 20px; border-radius: 12px; }
 .advice-item h4 { font-size: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
 .advice-item p { font-size: 14px; line-height: 1.9; color: #555; }
 .advice-item .highlight { font-weight: 700; color: #1a1a2e; }
-
 .green-bg { background: linear-gradient(135deg, #f6ffed, #f0faf0); border-left: 4px solid #52c41a; }
 .yellow-bg { background: linear-gradient(135deg, #fffbe6, #fff7cc); border-left: 4px solid #faad14; }
 .blue-bg { background: linear-gradient(135deg, #e6f7ff, #f0f5ff); border-left: 4px solid #1890ff; }
 .red-bg { background: linear-gradient(135deg, #fff2f0, #fff1f0); border-left: 4px solid #ff4d4f; }
-
-/* 术语解释区域 */
 .glossary-section { background: white; border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
 .glossary-section h2 { font-size: 18px; color: #1a1a2e; margin-bottom: 20px; padding-left: 12px; border-left: 4px solid #1890ff; }
 .glossary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
@@ -143,9 +133,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
 .glossary-toggle button { background: #1890ff; color: white; border: none; padding: 8px 24px; border-radius: 20px; font-size: 14px; cursor: pointer; transition: background 0.2s; }
 .glossary-toggle button:hover { background: #40a9ff; }
 .glossary-content { transition: max-height 0.3s ease; overflow: hidden; }
-
 .disclaimer { text-align: center; color: #aaa; font-size: 12px; margin-top: 20px; padding: 20px; line-height: 1.8; }
-
 @media (max-width: 768px) {
     .pe-grid { grid-template-columns: 1fr; }
     .fund-grid { grid-template-columns: 1fr; }
@@ -159,56 +147,65 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
 <div class="container">
 <div class="header">
     <h1>📊 基金PE估值与净值分析报告</h1>
-    <p class="update-time">数据更新时间：2026-04-26 14:47 <span class="badge">自动更新</span></p>
+    <p class="update-time">报告生成时间：2026-04-29 22:05 <span class="badge">自动更新</span></p>
+    <p class="data-note">📌 数据截止：净值 A股 2026-04-28 | 标普500 2026-04-28 | PE 2026-04</p>
 </div>
 
 <div class="history-bar">📂 历史报告：
-    <a href="report_20260426.html" class="current">4月26日</a>
+    <a href="report_20260426.html">4月26日</a>
     <a href="report_20260427.html">4月27日</a>
     <a href="report_20260428.html">4月28日</a>
-    <a href="index.html">4月29日(最新)</a>
+    <a href="report_20260429.html" class="current">4月29日</a>
     <a href="index.html">返回首页</a>
 </div>
 
-<!-- PE估值概览 -->
-
-<!-- 定投方案概览 -->
 <div class="plan-section" id="planSection"></div>
-
-<!-- PE估值概览 -->
 <div class="pe-grid" id="peGrid"></div>
-
-<!-- 基金净值与收益 -->
 <div class="fund-grid" id="fundGrid"></div>
 
-<!-- PE估值分布图 -->
 <div class="chart-section">
-    <h2>📈 三大指数PE估值历史分布</h2>
+    <div class="chart-header">
+        <h2>📈 三大指数PE估值历史分布</h2>
+        <button class="toggle-btn" id="toggleDist" onclick="toggleChartLabels('peDistChart', this)">🔢 显示数字</button>
+    </div>
     <div class="chart-wrapper"><canvas id="peDistChart"></canvas></div>
 </div>
 
-<!-- 三大指数PE月度趋势 -->
 <div class="chart-section">
-    <h2>📉 三大指数PE月度走势（近2年）</h2>
+    <div class="chart-header">
+        <h2>📉 三大指数PE月度走势（近2年）</h2>
+        <button class="toggle-btn" id="togglePe" onclick="toggleChartLabels('allPeChart', this)">🔢 显示数字</button>
+    </div>
     <div class="chart-wrapper chart-small"><canvas id="allPeChart"></canvas></div>
 </div>
 
-<!-- 近期净值走势 -->
 <div class="chart-section">
-    <h2>💹 三只基金近10日净值走势</h2>
+    <div class="chart-header">
+        <h2>💹 四只基金近10日净值走势</h2>
+        <button class="toggle-btn" id="toggleNav" onclick="toggleChartLabels('navChart', this)">🔢 显示数字</button>
+    </div>
     <div class="chart-wrapper chart-small"><canvas id="navChart"></canvas></div>
 </div>
 
-<!-- 区间收益对比 -->
 <div class="chart-section">
-    <h2>📊 区间收益率对比</h2>
+    <div class="chart-header">
+        <h2>📊 近30日净值趋势（4只基金对比）</h2>
+        <button class="toggle-btn" id="toggleDailyReturn" onclick="toggleChartLabels('dailyReturnChart', this)">🔢 显示数字</button>
+    </div>
+    <div class="chart-wrapper"><canvas id="dailyReturnChart"></canvas></div>
+    <div class="trend-summary" id="trendSummary"></div>
+</div>
+
+<div class="chart-section">
+    <div class="chart-header">
+        <h2>📊 区间收益率对比</h2>
+        <button class="toggle-btn" id="toggleReturn" onclick="toggleChartLabels('returnChart', this)">🔢 显示数字</button>
+    </div>
     <div class="chart-wrapper" style="height:420px;"><canvas id="returnChart"></canvas></div>
 </div>
 
-<!-- 投资建议 -->
 <div class="advice-section" id="adviceSection"></div>
 
-<!-- 术语解释 -->
 <div class="glossary-section">
     <h2>📖 投资术语小课堂</h2>
     <div class="glossary-toggle">
@@ -223,7 +220,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
             </div>
             <div class="term-fullname">市盈率 = 股价 ÷ 每股收益</div>
             <div class="term-analogy"><span class="analogy-label">🏪 举个例子：</span>一家奶茶店一年净赚10万，你花100万买下它。PE = 100÷10 = 10倍，意思是按这个赚钱速度，<strong>10年能回本</strong>。PE越低回本越快，但也要小心"便宜有便宜的道理"——可能这店生意在走下坡路。</div>
-            <div class="term-formula"><span class="formula-label">📐 计算方式：</span>沪深300 PE = 23.75 → 买入沪深300这些公司，理论上23.75年回本</div>
+            <div class="term-formula"><span class="formula-label">📐 计算方式：</span>沪深300 PE = 23.86 → 买入沪深300这些公司，理论上23.86年回本</div>
             <div class="term-meaning"><span class="meaning-label">🔑 对你意味着：</span>PE百分位告诉我们"现在买贵不贵"。百分位越低越便宜，越高越贵。你的定投策略就是根据这个来决定买多买少的。</div>
             <div class="term-tip"><span class="tip-icon">💡</span>PE适合看盈利稳定的公司/指数，周期股（如钢铁、煤炭）看PE不准</div>
         </div>
@@ -234,7 +231,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
             </div>
             <div class="term-fullname">市净率 = 股价 ÷ 每股净资产</div>
             <div class="term-analogy"><span class="analogy-label">🏪 举个例子：</span>一家奶茶店，设备+装修+存款这些"硬家底"值50万（净资产），你花100万买下它。PB = 100÷50 = 2倍，你花了<strong>2倍的价钱买它的家底</strong>。PB &lt; 1就是"破净"——打折买，比家底还便宜。</div>
-            <div class="term-formula"><span class="formula-label">📐 计算方式：</span>沪深300 PB = 2.40 → 买入价是它净资产的2.4倍</div>
+            <div class="term-formula"><span class="formula-label">📐 计算方式：</span>沪深300 PB = 2.39 → 买入价是它净资产的2.39倍</div>
             <div class="term-meaning"><span class="meaning-label">🔑 对你意味着：</span>PB看的是"家底厚不厚"。银行、地产等重资产行业看PB更有意义；创业板公司轻资产（软件、互联网），PB参考意义不大，所以报告里创业板没标PB。</div>
             <div class="term-tip"><span class="tip-icon">💡</span>PB &lt; 1不一定就是捡便宜，可能市场觉得这些资产要贬值</div>
         </div>
@@ -310,16 +307,37 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
 
 <div class="disclaimer">
 ⚠️ 免责声明：本报告仅供参考，不构成任何投资建议。投资有风险，入市需谨慎。<br>
-数据来源：ETF.run、乐咕乐股网（深交所）、NeoData金融数据服务。PE数据为等权计算，可能与市值加权算法存在差异。
+数据来源：akshare（东方财富/乐咕乐股）、NeoData金融数据。净值数据为实际交易日数据，A股T日更新，QDII基金（标普500）滞后1个交易日。PE数据为等权计算。
 </div>
 </div>
 
 <script>
+
 // ========== 数据 ==========
-const PE_GAUGE = {"000300": {"name": "沪深300", "current": 23.75, "min": 13.39, "max": 65.78, "p20": 20.96, "median": 24.16, "p80": 29.94, "percentile": 47.01}, "399006": {"name": "创业板指", "current": 48.85, "min": 26.32, "max": 133.76, "p20": 37.3, "median": 47.9, "p80": 60.54, "percentile": 53.4}, "000905": {"name": "中证500", "current": 39.18, "min": 18.9, "max": 100.48, "p20": 26.37, "median": 34.15, "p80": 52.31, "percentile": 61.76}};
-const FUND_DATA = {"110020": {"name": "易方达沪深300ETF联接A", "index": "沪深300", "index_code": "000300", "risk": "中风险", "established": "2009-08-26", "manager": "余海燕,庞亚平", "scale": "129.57亿", "nav_data": [{"date": "2026-04-24", "nav": 1.9191, "acc_nav": 1.9191, "daily_return": -0.31}, {"date": "2026-04-23", "nav": 1.9251, "acc_nav": 1.9251, "daily_return": -0.26}, {"date": "2026-04-22", "nav": 1.9302, "acc_nav": 1.9302, "daily_return": 0.7}, {"date": "2026-04-21", "nav": 1.9168, "acc_nav": 1.9168, "daily_return": 0.22}, {"date": "2026-04-20", "nav": 1.9125, "acc_nav": 1.9125, "daily_return": 0.57}, {"date": "2026-04-17", "nav": 1.9016, "acc_nav": 1.9016, "daily_return": -0.16}, {"date": "2026-04-16", "nav": 1.9046, "acc_nav": 1.9046, "daily_return": 1.05}, {"date": "2026-04-15", "nav": 1.8848, "acc_nav": 1.8848, "daily_return": -0.31}, {"date": "2026-04-14", "nav": 1.8906, "acc_nav": 1.8906, "daily_return": 1.13}, {"date": "2026-04-13", "nav": 1.8695, "acc_nav": 1.8695, "daily_return": 0.19}], "return_data": {"近1周": 0.92, "近1月": 6.43, "近3月": 1.57, "近6月": 2.87, "近1年": 27.9, "近2年": 40.49, "近3年": 27.91, "近5年": 5.06, "近10年": 86.86, "今年来": 3.22, "成立来": 91.91}}, "110026": {"name": "易方达创业板ETF联接A", "index": "创业板指", "index_code": "399006", "risk": "中高风险", "established": "2011-09-20", "manager": "成曦,刘树荣", "scale": "59.14亿", "nav_data": [{"date": "2026-04-24", "nav": 3.7336, "acc_nav": 3.7336, "daily_return": -1.33}, {"date": "2026-04-23", "nav": 3.7839, "acc_nav": 3.7839, "daily_return": -0.8}, {"date": "2026-04-22", "nav": 3.8146, "acc_nav": 3.8146, "daily_return": 1.9}, {"date": "2026-04-21", "nav": 3.7436, "acc_nav": 3.7436, "daily_return": 0.32}, {"date": "2026-04-20", "nav": 3.7315, "acc_nav": 3.7315, "daily_return": -0.03}, {"date": "2026-04-17", "nav": 3.7326, "acc_nav": 3.7326, "daily_return": 1.36}, {"date": "2026-04-16", "nav": 3.6826, "acc_nav": 3.6826, "daily_return": 3.01}, {"date": "2026-04-15", "nav": 3.5749, "acc_nav": 3.5749, "daily_return": -1.12}, {"date": "2026-04-14", "nav": 3.6154, "acc_nav": 3.6154, "daily_return": 2.24}, {"date": "2026-04-13", "nav": 3.5361, "acc_nav": 3.5361, "daily_return": 0.79}], "return_data": {"近1周": 0.03, "近1月": 12.57, "近3月": 9.5, "近6月": 15.66, "近1年": 86.1, "近2年": 106.23, "近3年": 59.86, "近5年": 24.42, "近10年": 74.61, "今年来": 14.3, "成立来": 273.32}}, "160119": {"name": "南方中证500ETF联接(LOF)A", "index": "中证500", "index_code": "000905", "risk": "中风险", "established": "2009-09-25", "manager": "罗文杰", "scale": "7.78亿", "nav_data": [{"date": "2026-04-24", "nav": 2.3072, "acc_nav": 2.4072, "daily_return": -0.52}, {"date": "2026-04-23", "nav": 2.3193, "acc_nav": 2.4193, "daily_return": -0.92}, {"date": "2026-04-22", "nav": 2.3408, "acc_nav": 2.4408, "daily_return": 1.22}, {"date": "2026-04-21", "nav": 2.3125, "acc_nav": 2.4125, "daily_return": -0.21}, {"date": "2026-04-20", "nav": 2.3174, "acc_nav": 2.4174, "daily_return": 0.88}, {"date": "2026-04-17", "nav": 2.2972, "acc_nav": 2.3972, "daily_return": 0.39}, {"date": "2026-04-16", "nav": 2.2882, "acc_nav": 2.3882, "daily_return": 1.63}, {"date": "2026-04-15", "nav": 2.2516, "acc_nav": 2.3516, "daily_return": -0.51}, {"date": "2026-04-14", "nav": 2.2631, "acc_nav": 2.3631, "daily_return": 1.44}, {"date": "2026-04-13", "nav": 2.231, "acc_nav": 2.331, "daily_return": -0.03}], "return_data": {"近1周": 0.44, "近1月": 8.29, "近3月": -3.81, "近6月": 13.36, "近1年": 46.96, "近2年": 57.9, "近3年": 36.84, "近5年": 36.76, "近10年": 58.94, "今年来": 10.06, "成立来": 151.99}}, "050025": {"name": "博时标普500ETF联接A", "index": "标普500", "index_code": "SP500", "risk": "中风险(QDII)", "established": "2013-01-15", "manager": "万琼", "scale": "59.27亿", "is_qdii": true, "nav_data": [{"date": "2026-04-24", "nav": 4.3521, "acc_nav": 4.3521, "daily_return": 0.82}, {"date": "2026-04-23", "nav": 4.3167, "acc_nav": 4.3167, "daily_return": -0.45}, {"date": "2026-04-22", "nav": 4.3362, "acc_nav": 4.3362, "daily_return": 1.23}, {"date": "2026-04-21", "nav": 4.2835, "acc_nav": 4.2835, "daily_return": -0.31}, {"date": "2026-04-20", "nav": 4.2968, "acc_nav": 4.2968, "daily_return": 0.56}, {"date": "2026-04-17", "nav": 4.2729, "acc_nav": 4.2729, "daily_return": -0.18}, {"date": "2026-04-16", "nav": 4.2806, "acc_nav": 4.2806, "daily_return": 0.93}, {"date": "2026-04-15", "nav": 4.2411, "acc_nav": 4.2411, "daily_return": -0.67}, {"date": "2026-04-14", "nav": 4.2697, "acc_nav": 4.2697, "daily_return": 0.45}, {"date": "2026-04-13", "nav": 4.2506, "acc_nav": 4.2506, "daily_return": 0.12}], "return_data": {"近1周": 0.72, "近1月": 5.18, "近3月": 2.35, "近6月": 8.42, "近1年": 25.01, "近2年": 38.56, "近3年": 32.14, "近5年": 85.23, "近10年": 196.78, "今年来": 3.56, "成立来": 335.21}}};
-const PE_DATA = {"000300": {"name": "沪深300", "current_pe": 23.75, "pe_min": 13.39, "pe_max": 65.78, "pe_mean": 27.02, "pe_median": 24.16, "pe_percentile": 47.01, "pe_p20": 20.96, "pe_p80": 29.94, "current_pb": 2.4, "pb_min": 1.44, "pb_max": 7.68, "pb_mean": 2.83, "pb_median": 2.55, "pb_p20": 2.14, "pb_p80": 3.29, "pb_percentile": 39.51, "monthly_pe": [{"date": "2024-05", "pe": 31.03}, {"date": "2024-06", "pe": 28.65}, {"date": "2024-07", "pe": 28.96}, {"date": "2024-08", "pe": 25.72}, {"date": "2024-09", "pe": 29.68}, {"date": "2024-10", "pe": 30.39}, {"date": "2024-11", "pe": 31.07}, {"date": "2024-12", "pe": 28.69}, {"date": "2025-01", "pe": 27.9}, {"date": "2025-02", "pe": 29.61}, {"date": "2025-03", "pe": 28.12}, {"date": "2025-04", "pe": 28.12}, {"date": "2025-05", "pe": 28.07}, {"date": "2025-06", "pe": 29.72}, {"date": "2025-07", "pe": 31.19}, {"date": "2025-08", "pe": 34.57}, {"date": "2025-09", "pe": 35.8}, {"date": "2025-10", "pe": 31.66}, {"date": "2025-11", "pe": 30.99}, {"date": "2025-12", "pe": 32.38}, {"date": "2026-01", "pe": 35.0}, {"date": "2026-02", "pe": 35.0}, {"date": "2026-03", "pe": 32.57}, {"date": "2026-04", "pe": 35.21}]}, "399006": {"name": "创业板指", "current_pe": 48.85, "pe_min": 26.32, "pe_max": 133.76, "pe_mean": 47.9, "pe_median": 47.9, "pe_percentile": 53.4, "pe_p20": 37.3, "pe_p80": 60.54, "current_pb": null, "pb_min": null, "pb_max": null, "pb_mean": null, "pb_median": null, "pb_p20": null, "pb_p80": null, "pb_percentile": null, "monthly_pe": [{"date": "2024-05", "pe": 30.02}, {"date": "2024-06", "pe": 27.92}, {"date": "2024-07", "pe": 27.74}, {"date": "2024-08", "pe": 26.34}, {"date": "2024-09", "pe": 35.0}, {"date": "2024-10", "pe": 36.32}, {"date": "2024-11", "pe": 37.37}, {"date": "2024-12", "pe": 36.05}, {"date": "2025-01", "pe": 35.74}, {"date": "2025-02", "pe": 37.93}, {"date": "2025-03", "pe": 37.31}, {"date": "2025-04", "pe": 34.9}, {"date": "2025-05", "pe": 35.87}, {"date": "2025-06", "pe": 38.67}, {"date": "2025-07", "pe": 40.72}, {"date": "2025-08", "pe": 47.76}, {"date": "2025-09", "pe": 50.56}, {"date": "2025-10", "pe": 49.81}, {"date": "2025-11", "pe": 48.16}, {"date": "2025-12", "pe": 49.98}, {"date": "2026-01", "pe": 52.87}, {"date": "2026-02", "pe": 53.82}, {"date": "2026-03", "pe": 44.24}, {"date": "2026-04", "pe": 48.85}]}, "000905": {"name": "中证500", "current_pe": 39.18, "pe_min": 18.9, "pe_max": 100.48, "pe_mean": 39.42, "pe_median": 34.15, "pe_percentile": 61.76, "pe_p20": 26.37, "pe_p80": 52.31, "current_pb": 2.9, "pb_min": 1.43, "pb_max": 6.58, "pb_mean": 2.84, "pb_median": 2.53, "pb_p20": 2.09, "pb_p80": 3.56, "pb_percentile": 61.76, "monthly_pe": [{"date": "2024-05", "pe": 35.63}, {"date": "2024-06", "pe": 35.39}, {"date": "2024-07", "pe": 34.54}, {"date": "2024-08", "pe": 32.6}, {"date": "2024-09", "pe": 38.61}, {"date": "2024-10", "pe": 38.31}, {"date": "2024-11", "pe": 39.07}, {"date": "2024-12", "pe": 39.5}, {"date": "2025-01", "pe": 38.36}, {"date": "2025-02", "pe": 38.73}, {"date": "2025-03", "pe": 38.26}, {"date": "2025-04", "pe": 34.69}, {"date": "2025-05", "pe": 35.51}, {"date": "2025-06", "pe": 37.49}, {"date": "2025-07", "pe": 38.81}, {"date": "2025-08", "pe": 41.47}, {"date": "2025-09", "pe": 42.85}, {"date": "2025-10", "pe": 41.96}, {"date": "2025-11", "pe": 41.27}, {"date": "2025-12", "pe": 43.88}, {"date": "2026-01", "pe": 47.27}, {"date": "2026-02", "pe": 48.96}, {"date": "2026-03", "pe": 45.8}, {"date": "2026-04", "pe": 50.1}]}};
-const CYB_PE = [{"date": "2009-10", "pe": 111.03}, {"date": "2009-11", "pe": 114.62}, {"date": "2009-12", "pe": 105.38}, {"date": "2010-01", "pe": 88.39}, {"date": "2010-02", "pe": 93.32}, {"date": "2010-03", "pe": 79.49}, {"date": "2010-04", "pe": 67.39}, {"date": "2010-05", "pe": 64.48}, {"date": "2024-05", "pe": 30.02}, {"date": "2024-06", "pe": 27.92}, {"date": "2024-07", "pe": 27.74}, {"date": "2024-08", "pe": 26.34}, {"date": "2024-09", "pe": 35.0}, {"date": "2024-10", "pe": 36.32}, {"date": "2024-11", "pe": 37.37}, {"date": "2024-12", "pe": 36.05}, {"date": "2025-01", "pe": 35.74}, {"date": "2025-02", "pe": 37.93}, {"date": "2025-03", "pe": 37.31}, {"date": "2025-04", "pe": 34.9}, {"date": "2025-05", "pe": 35.87}, {"date": "2025-06", "pe": 38.67}, {"date": "2025-07", "pe": 40.72}, {"date": "2025-08", "pe": 47.76}, {"date": "2025-09", "pe": 50.56}, {"date": "2025-10", "pe": 49.81}, {"date": "2025-11", "pe": 48.16}, {"date": "2025-12", "pe": 49.98}, {"date": "2026-01", "pe": 52.87}, {"date": "2026-02", "pe": 53.82}, {"date": "2026-03", "pe": 44.24}, {"date": "2026-04", "pe": 48.85}];
+const PE_GAUGE = {"000300": {"name": "沪深300", "current": 23.86, "min": 13.39, "max": 65.78, "p20": 20.96, "median": 24.16, "p80": 29.94, "percentile": 47.89}, "399006": {"name": "创业板指", "current": 48.33, "min": 26.32, "max": 133.76, "p20": 36.05, "median": 47.76, "p80": 64.51, "percentile": 52.36}, "000905": {"name": "中证500", "current": 39.26, "min": 18.9, "max": 100.48, "p20": 26.37, "median": 34.15, "p80": 52.29, "percentile": 61.81}};
+const FUND_DATA = {"110020": {"name": "易方达沪深300ETF联接A", "index": "沪深300", "index_code": "000300", "risk": "中风险", "established": "2009-08-26", "manager": "余海燕,庞亚平", "scale": "129.57亿", "nav_data": [{"date": "2026-04-28", "nav": 1.9147, "acc_nav": 1.9147, "daily_return": -0.26}, {"date": "2026-04-27", "nav": 1.9196, "acc_nav": 1.9196, "daily_return": 0.03}, {"date": "2026-04-24", "nav": 1.9191, "acc_nav": 1.9191, "daily_return": -0.31}, {"date": "2026-04-23", "nav": 1.9251, "acc_nav": 1.9251, "daily_return": -0.26}, {"date": "2026-04-22", "nav": 1.9302, "acc_nav": 1.9302, "daily_return": 0.7}, {"date": "2026-04-21", "nav": 1.9168, "acc_nav": 1.9168, "daily_return": 0.22}, {"date": "2026-04-20", "nav": 1.9125, "acc_nav": 1.9125, "daily_return": 0.57}, {"date": "2026-04-17", "nav": 1.9016, "acc_nav": 1.9016, "daily_return": -0.16}, {"date": "2026-04-16", "nav": 1.9046, "acc_nav": 1.9046, "daily_return": 1.05}, {"date": "2026-04-15", "nav": 1.8848, "acc_nav": 1.8848, "daily_return": -0.31}, {"date": "2026-04-14", "nav": 1.8906, "acc_nav": 1.8906, "daily_return": 1.13}, {"date": "2026-04-13", "nav": 1.8695, "acc_nav": 1.8695, "daily_return": 0.19}, {"date": "2026-04-10", "nav": 1.8659, "acc_nav": 1.8659, "daily_return": 1.47}, {"date": "2026-04-09", "nav": 1.8389, "acc_nav": 1.8389, "daily_return": -0.61}, {"date": "2026-04-08", "nav": 1.8502, "acc_nav": 1.8502, "daily_return": 3.32}, {"date": "2026-04-07", "nav": 1.7907, "acc_nav": 1.7907, "daily_return": 0.0}, {"date": "2026-04-03", "nav": 1.7907, "acc_nav": 1.7907, "daily_return": -0.8}, {"date": "2026-04-02", "nav": 1.8051, "acc_nav": 1.8051, "daily_return": -1.0}, {"date": "2026-04-01", "nav": 1.8233, "acc_nav": 1.8233, "daily_return": 1.62}, {"date": "2026-03-31", "nav": 1.7943, "acc_nav": 1.7943, "daily_return": -0.87}, {"date": "2026-03-30", "nav": 1.8101, "acc_nav": 1.8101, "daily_return": -0.23}, {"date": "2026-03-27", "nav": 1.8142, "acc_nav": 1.8142, "daily_return": 0.54}, {"date": "2026-03-26", "nav": 1.8045, "acc_nav": 1.8045, "daily_return": -1.25}, {"date": "2026-03-25", "nav": 1.8274, "acc_nav": 1.8274, "daily_return": 1.34}, {"date": "2026-03-24", "nav": 1.8032, "acc_nav": 1.8032, "daily_return": 1.22}, {"date": "2026-03-23", "nav": 1.7815, "acc_nav": 1.7815, "daily_return": -3.13}, {"date": "2026-03-20", "nav": 1.8391, "acc_nav": 1.8391, "daily_return": -0.33}, {"date": "2026-03-19", "nav": 1.8451, "acc_nav": 1.8451, "daily_return": -1.53}, {"date": "2026-03-18", "nav": 1.8737, "acc_nav": 1.8737, "daily_return": 0.42}, {"date": "2026-03-17", "nav": 1.8659, "acc_nav": 1.8659, "daily_return": -0.69}], "return_data": {"近1周": 0.92, "近1月": 6.43, "近3月": 1.57, "近6月": 2.87, "近1年": 27.9, "近2年": 40.49, "近3年": 27.91, "近5年": 5.06, "近10年": 86.86, "今年来": 3.22, "成立来": 91.91}}, "110026": {"name": "易方达创业板ETF联接A", "index": "创业板指", "index_code": "399006", "risk": "中高风险", "established": "2011-09-20", "manager": "成曦,刘树荣", "scale": "59.14亿", "nav_data": [{"date": "2026-04-29", "nav": 3.7582, "acc_nav": 3.7582, "daily_return": 2.44}, {"date": "2026-04-28", "nav": 3.6686, "acc_nav": 3.6686, "daily_return": -1.35}, {"date": "2026-04-27", "nav": 3.7187, "acc_nav": 3.7187, "daily_return": -0.4}, {"date": "2026-04-24", "nav": 3.7336, "acc_nav": 3.7336, "daily_return": -1.33}, {"date": "2026-04-23", "nav": 3.7839, "acc_nav": 3.7839, "daily_return": -0.8}, {"date": "2026-04-22", "nav": 3.8146, "acc_nav": 3.8146, "daily_return": 1.9}, {"date": "2026-04-21", "nav": 3.7436, "acc_nav": 3.7436, "daily_return": 0.32}, {"date": "2026-04-20", "nav": 3.7315, "acc_nav": 3.7315, "daily_return": -0.03}, {"date": "2026-04-17", "nav": 3.7326, "acc_nav": 3.7326, "daily_return": 1.36}, {"date": "2026-04-16", "nav": 3.6826, "acc_nav": 3.6826, "daily_return": 3.01}, {"date": "2026-04-15", "nav": 3.5749, "acc_nav": 3.5749, "daily_return": -1.12}, {"date": "2026-04-14", "nav": 3.6154, "acc_nav": 3.6154, "daily_return": 2.24}, {"date": "2026-04-13", "nav": 3.5361, "acc_nav": 3.5361, "daily_return": 0.79}, {"date": "2026-04-10", "nav": 3.5083, "acc_nav": 3.5083, "daily_return": 3.61}, {"date": "2026-04-09", "nav": 3.3861, "acc_nav": 3.3861, "daily_return": -0.69}, {"date": "2026-04-08", "nav": 3.4097, "acc_nav": 3.4097, "daily_return": 5.59}, {"date": "2026-04-07", "nav": 3.2293, "acc_nav": 3.2293, "daily_return": 0.34}, {"date": "2026-04-03", "nav": 3.2182, "acc_nav": 3.2182, "daily_return": -0.68}, {"date": "2026-04-02", "nav": 3.2403, "acc_nav": 3.2403, "daily_return": -2.19}, {"date": "2026-04-01", "nav": 3.3128, "acc_nav": 3.3128, "daily_return": 1.85}, {"date": "2026-03-31", "nav": 3.2525, "acc_nav": 3.2525, "daily_return": -2.55}, {"date": "2026-03-30", "nav": 3.3377, "acc_nav": 3.3377, "daily_return": -0.65}, {"date": "2026-03-27", "nav": 3.3595, "acc_nav": 3.3595, "daily_return": 0.68}, {"date": "2026-03-26", "nav": 3.3367, "acc_nav": 3.3367, "daily_return": -1.28}, {"date": "2026-03-25", "nav": 3.38, "acc_nav": 3.38, "daily_return": 1.91}, {"date": "2026-03-24", "nav": 3.3167, "acc_nav": 3.3167, "daily_return": 0.48}, {"date": "2026-03-23", "nav": 3.3008, "acc_nav": 3.3008, "daily_return": -3.37}, {"date": "2026-03-20", "nav": 3.4158, "acc_nav": 3.4158, "daily_return": 1.22}, {"date": "2026-03-19", "nav": 3.3746, "acc_nav": 3.3746, "daily_return": -1.06}, {"date": "2026-03-18", "nav": 3.4106, "acc_nav": 3.4106, "daily_return": 1.91}], "return_data": {"近1周": 0.03, "近1月": 12.57, "近3月": 9.5, "近6月": 15.66, "近1年": 86.1, "近2年": 106.23, "近3年": 59.86, "近5年": 24.42, "近10年": 74.61, "今年来": 14.3, "成立来": 273.32}}, "160119": {"name": "南方中证500ETF联接(LOF)A", "index": "中证500", "index_code": "000905", "risk": "中风险", "established": "2009-09-25", "manager": "罗文杰", "scale": "7.78亿", "nav_data": [{"date": "2026-04-29", "nav": 2.3329, "acc_nav": 2.3329, "daily_return": 1.65}, {"date": "2026-04-28", "nav": 2.2951, "acc_nav": 2.2951, "daily_return": -1.1}, {"date": "2026-04-27", "nav": 2.3206, "acc_nav": 2.3206, "daily_return": 0.58}, {"date": "2026-04-24", "nav": 2.3072, "acc_nav": 2.3072, "daily_return": -0.52}, {"date": "2026-04-23", "nav": 2.3193, "acc_nav": 2.3193, "daily_return": -0.92}, {"date": "2026-04-22", "nav": 2.3408, "acc_nav": 2.3408, "daily_return": 1.22}, {"date": "2026-04-21", "nav": 2.3125, "acc_nav": 2.3125, "daily_return": -0.21}, {"date": "2026-04-20", "nav": 2.3174, "acc_nav": 2.3174, "daily_return": 0.88}, {"date": "2026-04-17", "nav": 2.2972, "acc_nav": 2.2972, "daily_return": 0.39}, {"date": "2026-04-16", "nav": 2.2882, "acc_nav": 2.2882, "daily_return": 1.63}, {"date": "2026-04-15", "nav": 2.2516, "acc_nav": 2.2516, "daily_return": -0.51}, {"date": "2026-04-14", "nav": 2.2631, "acc_nav": 2.2631, "daily_return": 1.44}, {"date": "2026-04-13", "nav": 2.231, "acc_nav": 2.231, "daily_return": -0.03}, {"date": "2026-04-10", "nav": 2.2316, "acc_nav": 2.2316, "daily_return": 0.87}, {"date": "2026-04-09", "nav": 2.2124, "acc_nav": 2.2124, "daily_return": -0.55}, {"date": "2026-04-08", "nav": 2.2247, "acc_nav": 2.2247, "daily_return": 4.71}, {"date": "2026-04-07", "nav": 2.1247, "acc_nav": 2.1247, "daily_return": 0.46}, {"date": "2026-04-03", "nav": 2.115, "acc_nav": 2.115, "daily_return": -0.86}, {"date": "2026-04-02", "nav": 2.1333, "acc_nav": 2.1333, "daily_return": -1.8}, {"date": "2026-04-01", "nav": 2.1723, "acc_nav": 2.1723, "daily_return": 1.67}, {"date": "2026-03-31", "nav": 2.1367, "acc_nav": 2.1367, "daily_return": -1.67}, {"date": "2026-03-30", "nav": 2.1729, "acc_nav": 2.1729, "daily_return": 0.2}, {"date": "2026-03-27", "nav": 2.1686, "acc_nav": 2.1686, "daily_return": 1.2}, {"date": "2026-03-26", "nav": 2.1428, "acc_nav": 2.1428, "daily_return": -1.54}, {"date": "2026-03-25", "nav": 2.1764, "acc_nav": 2.1764, "daily_return": 2.15}, {"date": "2026-03-24", "nav": 2.1305, "acc_nav": 2.1305, "daily_return": 2.01}, {"date": "2026-03-23", "nav": 2.0886, "acc_nav": 2.0886, "daily_return": -3.95}, {"date": "2026-03-20", "nav": 2.1745, "acc_nav": 2.1745, "daily_return": -1.38}, {"date": "2026-03-19", "nav": 2.205, "acc_nav": 2.205, "daily_return": -2.6}, {"date": "2026-03-18", "nav": 2.2638, "acc_nav": 2.2638, "daily_return": 0.94}], "return_data": {"近1周": 0.44, "近1月": 8.29, "近3月": -3.81, "近6月": 13.36, "近1年": 46.96, "近2年": 57.9, "近3年": 36.84, "近5年": 36.76, "近10年": 58.94, "今年来": 10.06, "成立来": 151.99}}, "050025": {"name": "博时标普500ETF联接A", "index": "标普500", "index_code": "SP500", "risk": "中风险(QDII)", "established": "2013-01-15", "manager": "万琼", "scale": "59.27亿", "is_qdii": true, "nav_data": [{"date": "2026-04-28", "nav": 5.2755, "acc_nav": 5.2755, "daily_return": -0.46}, {"date": "2026-04-27", "nav": 5.2999, "acc_nav": 5.2999, "daily_return": -0.01}, {"date": "2026-04-24", "nav": 5.3006, "acc_nav": 5.3006, "daily_return": 0.81}, {"date": "2026-04-23", "nav": 5.2581, "acc_nav": 5.2581, "daily_return": -0.36}, {"date": "2026-04-22", "nav": 5.2772, "acc_nav": 5.2772, "daily_return": 1.08}, {"date": "2026-04-21", "nav": 5.221, "acc_nav": 5.221, "daily_return": -0.66}, {"date": "2026-04-20", "nav": 5.2556, "acc_nav": 5.2556, "daily_return": -0.19}, {"date": "2026-04-17", "nav": 5.2654, "acc_nav": 5.2654, "daily_return": 1.16}, {"date": "2026-04-16", "nav": 5.2048, "acc_nav": 5.2048, "daily_return": 0.3}, {"date": "2026-04-15", "nav": 5.1892, "acc_nav": 5.1892, "daily_return": 0.76}, {"date": "2026-04-14", "nav": 5.1501, "acc_nav": 5.1501, "daily_return": 1.04}, {"date": "2026-04-13", "nav": 5.0973, "acc_nav": 5.0973, "daily_return": 0.98}, {"date": "2026-04-10", "nav": 5.0477, "acc_nav": 5.0477, "daily_return": -0.1}, {"date": "2026-04-09", "nav": 5.0527, "acc_nav": 5.0527, "daily_return": 0.55}, {"date": "2026-04-08", "nav": 5.0251, "acc_nav": 5.0251, "daily_return": 2.12}, {"date": "2026-04-07", "nav": 4.9207, "acc_nav": 4.9207, "daily_return": 0.39}, {"date": "2026-04-03", "nav": 4.9016, "acc_nav": 4.9016, "daily_return": 0.07}, {"date": "2026-04-02", "nav": 4.8983, "acc_nav": 4.8983, "daily_return": -0.11}, {"date": "2026-04-01", "nav": 4.9038, "acc_nav": 4.9038, "daily_return": 0.43}, {"date": "2026-03-31", "nav": 4.8829, "acc_nav": 4.8829, "daily_return": 2.73}, {"date": "2026-03-30", "nav": 4.7532, "acc_nav": 4.7532, "daily_return": -0.23}, {"date": "2026-03-27", "nav": 4.7641, "acc_nav": 4.7641, "daily_return": -1.48}, {"date": "2026-03-26", "nav": 4.8358, "acc_nav": 4.8358, "daily_return": -1.43}, {"date": "2026-03-25", "nav": 4.9061, "acc_nav": 4.9061, "daily_return": 0.5}, {"date": "2026-03-24", "nav": 4.8817, "acc_nav": 4.8817, "daily_return": -0.52}, {"date": "2026-03-23", "nav": 4.9074, "acc_nav": 4.9074, "daily_return": 1.32}, {"date": "2026-03-20", "nav": 4.8433, "acc_nav": 4.8433, "daily_return": -1.53}, {"date": "2026-03-19", "nav": 4.9186, "acc_nav": 4.9186, "daily_return": -0.15}, {"date": "2026-03-18", "nav": 4.9261, "acc_nav": 4.9261, "daily_return": -1.39}, {"date": "2026-03-17", "nav": 4.9954, "acc_nav": 4.9954, "daily_return": 0.12}], "return_data": {"近1周": 1.02, "近1月": 7.15, "近3月": 1.15, "近6月": 2.48, "近1年": 25.01, "近2年": 33.76, "近3年": 65.94, "近5年": 72.09, "近10年": 239.01, "今年来": 1.59, "成立来": 452.03}}};
+const PE_DATA = {"000300": {"name": "沪深300", "current_pe": 23.86, "pe_min": 13.39, "pe_max": 65.78, "pe_mean": 27.02, "pe_median": 24.16, "pe_percentile": 47.89, "pe_p20": 20.96, "pe_p80": 29.94, "current_pb": 2.39, "pb_min": 1.44, "pb_max": 7.68, "pb_mean": 2.83, "pb_median": 2.55, "pb_p20": 2.14, "pb_p80": 3.29, "pb_percentile": 39.17, "monthly_pe": [{"date": "2024-05", "pe": 31.03}, {"date": "2024-06", "pe": 28.65}, {"date": "2024-07", "pe": 28.96}, {"date": "2024-08", "pe": 25.72}, {"date": "2024-09", "pe": 29.68}, {"date": "2024-10", "pe": 30.39}, {"date": "2024-11", "pe": 31.07}, {"date": "2024-12", "pe": 28.69}, {"date": "2025-01", "pe": 27.9}, {"date": "2025-02", "pe": 29.61}, {"date": "2025-03", "pe": 28.12}, {"date": "2025-04", "pe": 28.12}, {"date": "2025-05", "pe": 28.07}, {"date": "2025-06", "pe": 29.72}, {"date": "2025-07", "pe": 31.19}, {"date": "2025-08", "pe": 34.57}, {"date": "2025-09", "pe": 35.8}, {"date": "2025-10", "pe": 31.66}, {"date": "2025-11", "pe": 30.99}, {"date": "2025-12", "pe": 32.38}, {"date": "2026-01", "pe": 35.0}, {"date": "2026-02", "pe": 35.0}, {"date": "2026-03", "pe": 32.57}, {"date": "2026-04", "pe": 33.34}]}, "399006": {"name": "创业板指", "current_pe": 48.33, "pe_min": 26.32, "pe_max": 133.76, "pe_mean": 51.16, "pe_median": 47.76, "pe_percentile": 52.36, "pe_p20": 36.05, "pe_p80": 64.51, "current_pb": null, "pb_min": null, "pb_max": null, "pb_mean": null, "pb_median": null, "pb_p20": null, "pb_p80": null, "pb_percentile": null, "monthly_pe": [{"date": "2024-05", "pe": 30.02}, {"date": "2024-06", "pe": 27.92}, {"date": "2024-07", "pe": 27.74}, {"date": "2024-08", "pe": 26.34}, {"date": "2024-09", "pe": 35.0}, {"date": "2024-10", "pe": 36.32}, {"date": "2024-11", "pe": 37.37}, {"date": "2024-12", "pe": 36.05}, {"date": "2025-01", "pe": 35.74}, {"date": "2025-02", "pe": 37.93}, {"date": "2025-03", "pe": 37.31}, {"date": "2025-04", "pe": 34.9}, {"date": "2025-05", "pe": 35.87}, {"date": "2025-06", "pe": 38.67}, {"date": "2025-07", "pe": 40.72}, {"date": "2025-08", "pe": 47.76}, {"date": "2025-09", "pe": 50.56}, {"date": "2025-10", "pe": 49.81}, {"date": "2025-11", "pe": 48.16}, {"date": "2025-12", "pe": 49.98}, {"date": "2026-01", "pe": 52.87}, {"date": "2026-02", "pe": 53.82}, {"date": "2026-03", "pe": 44.24}, {"date": "2026-04", "pe": 48.92}]}, "000905": {"name": "中证500", "current_pe": 39.26, "pe_min": 18.9, "pe_max": 100.48, "pe_mean": 39.42, "pe_median": 34.15, "pe_percentile": 61.81, "pe_p20": 26.37, "pe_p80": 52.29, "current_pb": 2.9, "pb_min": 1.43, "pb_max": 6.58, "pb_mean": 2.84, "pb_median": 2.53, "pb_p20": 2.09, "pb_p80": 3.56, "pb_percentile": 61.75, "monthly_pe": [{"date": "2024-05", "pe": 35.63}, {"date": "2024-06", "pe": 35.39}, {"date": "2024-07", "pe": 34.54}, {"date": "2024-08", "pe": 32.6}, {"date": "2024-09", "pe": 38.61}, {"date": "2024-10", "pe": 38.31}, {"date": "2024-11", "pe": 39.07}, {"date": "2024-12", "pe": 39.5}, {"date": "2025-01", "pe": 38.36}, {"date": "2025-02", "pe": 38.73}, {"date": "2025-03", "pe": 38.26}, {"date": "2025-04", "pe": 34.69}, {"date": "2025-05", "pe": 35.51}, {"date": "2025-06", "pe": 37.49}, {"date": "2025-07", "pe": 38.81}, {"date": "2025-08", "pe": 41.47}, {"date": "2025-09", "pe": 42.85}, {"date": "2025-10", "pe": 41.96}, {"date": "2025-11", "pe": 41.27}, {"date": "2025-12", "pe": 43.88}, {"date": "2026-01", "pe": 47.27}, {"date": "2026-02", "pe": 48.96}, {"date": "2026-03", "pe": 45.8}, {"date": "2026-04", "pe": 47.08}]}};
+const CYB_PE = [{"date": "2009-10", "pe": 111.03}, {"date": "2009-11", "pe": 114.62}, {"date": "2009-12", "pe": 105.38}, {"date": "2010-01", "pe": 88.39}, {"date": "2010-02", "pe": 93.32}, {"date": "2010-03", "pe": 79.49}, {"date": "2010-04", "pe": 67.39}, {"date": "2010-05", "pe": 64.48}, {"date": "2024-05", "pe": 30.02}, {"date": "2024-06", "pe": 27.92}, {"date": "2024-07", "pe": 27.74}, {"date": "2024-08", "pe": 26.34}, {"date": "2024-09", "pe": 35.0}, {"date": "2024-10", "pe": 36.32}, {"date": "2024-11", "pe": 37.37}, {"date": "2024-12", "pe": 36.05}, {"date": "2025-01", "pe": 35.74}, {"date": "2025-02", "pe": 37.93}, {"date": "2025-03", "pe": 37.31}, {"date": "2025-04", "pe": 34.9}, {"date": "2025-05", "pe": 35.87}, {"date": "2025-06", "pe": 38.67}, {"date": "2025-07", "pe": 40.72}, {"date": "2025-08", "pe": 47.76}, {"date": "2025-09", "pe": 50.56}, {"date": "2025-10", "pe": 49.81}, {"date": "2025-11", "pe": 48.16}, {"date": "2025-12", "pe": 49.98}, {"date": "2026-01", "pe": 52.87}, {"date": "2026-02", "pe": 53.82}, {"date": "2026-03", "pe": 44.24}, {"date": "2026-04", "pe": 48.92}];
+
+// ========== 图表实例存储 & 数字标签控制 ==========
+const chartInstances = {};
+const chartLabelsState = {};
+
+function toggleChartLabels(chartId, btn) {
+    const chart = chartInstances[chartId];
+    if (!chart) return;
+    chartLabelsState[chartId] = !chartLabelsState[chartId];
+    const show = chartLabelsState[chartId];
+    if (show) {
+        btn.textContent = '🔢 隐藏数字';
+        btn.classList.add('active');
+    } else {
+        btn.textContent = '🔢 显示数字';
+        btn.classList.remove('active');
+    }
+    chart.options.plugins.datalabels.display = show;
+    chart.update();
+}
 
 // ========== 颜色工具 ==========
 function getPeColor(pct) {
@@ -336,7 +354,7 @@ function getPeZone(pct) {
     return '高估';
 }
 function getReturnColor(val) {
-    return val >= 0 ? '#cf1322' : '#3f8600';  // 中国股市红涨绿跌
+    return val >= 0 ? '#cf1322' : '#3f8600';
 }
 
 // ========== 渲染PE概览卡片 ==========
@@ -344,14 +362,14 @@ function renderPeCards() {
     const grid = document.getElementById('peGrid');
     grid.innerHTML = '';
     const indexToFund = {"000300": "110020", "399006": "110026", "000905": "160119"};
-    
+
     Object.entries(PE_GAUGE).forEach(([code, d]) => {
         const fundCode = indexToFund[code];
         const fund = FUND_DATA[fundCode];
         const color = getPeColor(d.percentile);
         const zone = getPeZone(d.percentile);
         const markerLeft = Math.min(Math.max(d.percentile, 2), 98);
-        
+
         const card = document.createElement('div');
         card.className = 'pe-card';
         card.innerHTML = `
@@ -386,8 +404,7 @@ function renderPeCards() {
                     <div class="label">80%分位</div>
                     <div class="value" style="color:#ff4d4f">${d.p80.toFixed(2)}</div>
                 </div>
-            </div>
-        `;
+            </div>`;
         grid.appendChild(card);
     });
 }
@@ -396,25 +413,24 @@ function renderPeCards() {
 function renderFundCards() {
     const grid = document.getElementById('fundGrid');
     grid.innerHTML = '';
-    
+
     Object.entries(FUND_DATA).forEach(([code, fund]) => {
         const latest = fund.nav_data[0];
         const ret = fund.return_data;
-        
+
         const returnItems = [
             {label: '近1月', value: ret['近1月']},
             {label: '近3月', value: ret['近3月']},
             {label: '近1年', value: ret['近1年']},
             {label: '今年来', value: ret['今年来']},
         ];
-        
+
         let returnHtml = returnItems.map(r => `
             <div class="return-item" style="background:${r.value >= 0 ? '#fff1f0' : '#f6ffed'}">
                 <div class="label">${r.label}</div>
                 <div class="value" style="color:${getReturnColor(r.value)}">${r.value >= 0 ? '+' : ''}${r.value.toFixed(2)}%</div>
-            </div>
-        `).join('');
-        
+            </div>`).join('');
+
         const card = document.createElement('div');
         card.className = 'fund-card';
         card.innerHTML = `
@@ -430,8 +446,7 @@ function renderFundCards() {
                     <div style="font-size:12px;color:#999">日涨跌</div>
                 </div>
             </div>
-            <div class="return-grid">${returnHtml}</div>
-        `;
+            <div class="return-grid">${returnHtml}</div>`;
         grid.appendChild(card);
     });
 }
@@ -441,86 +456,20 @@ function renderPeDistChart() {
     const ctx = document.getElementById('peDistChart').getContext('2d');
     const labels = ['沪深300', '创业板指', '中证500'];
     const codes = ['000300', '399006', '000905'];
-    const colors = ['#e74c3c', '#3498db', '#2ecc71'];
-    
-    // 用散点+条形表示PE分布区间
-    const datasets = [];
-    codes.forEach((code, i) => {
-        const pe = PE_DATA[code];
-        // 最低到最高区间 (背景bar)
-        datasets.push({
-            label: labels[i] + ' 区间',
-            data: [null, null, null],
-            type: 'bar',
-            backgroundColor: colors[i] + '20',
-            borderColor: colors[i] + '40',
-            borderWidth: 1,
-            barPercentage: 0.5,
-            categoryPercentage: 0.8,
-        });
-        // 当前PE (散点)
-        datasets.push({
-            label: labels[i] + ' 当前PE',
-            data: [null, null, null],
-            type: 'scatter',
-            backgroundColor: colors[i],
-            borderColor: colors[i],
-            pointRadius: 10,
-            pointHoverRadius: 13,
-        });
-    });
-    
-    // 改用分组条形图
+
     const barData = {
         labels: labels,
         datasets: [
-            {
-                label: '历史最低PE',
-                data: codes.map(c => PE_DATA[c].pe_min),
-                backgroundColor: '#1890ff20',
-                borderColor: '#1890ff',
-                borderWidth: 1,
-            },
-            {
-                label: '20%分位',
-                data: codes.map(c => PE_DATA[c].pe_p20),
-                backgroundColor: '#13c2c230',
-                borderColor: '#13c2c2',
-                borderWidth: 1,
-            },
-            {
-                label: '中位数',
-                data: codes.map(c => PE_DATA[c].pe_median),
-                backgroundColor: '#faad1430',
-                borderColor: '#faad14',
-                borderWidth: 1,
-            },
-            {
-                label: '当前PE',
-                data: codes.map(c => PE_DATA[c].current_pe),
-                backgroundColor: '#722ed130',
-                borderColor: '#722ed1',
-                borderWidth: 2,
-            },
-            {
-                label: '80%分位',
-                data: codes.map(c => PE_DATA[c].pe_p80),
-                backgroundColor: '#fa8c1630',
-                borderColor: '#fa8c16',
-                borderWidth: 1,
-            },
-            {
-                label: '历史最高PE',
-                data: codes.map(c => PE_DATA[c].pe_max),
-                backgroundColor: '#cf132215',
-                borderColor: '#cf132280',
-                borderWidth: 1,
-                borderDash: [4,4],
-            },
+            { label: '历史最低PE', data: codes.map(c => PE_DATA[c].pe_min), backgroundColor: '#1890ff20', borderColor: '#1890ff', borderWidth: 1 },
+            { label: '20%分位', data: codes.map(c => PE_DATA[c].pe_p20), backgroundColor: '#13c2c230', borderColor: '#13c2c2', borderWidth: 1 },
+            { label: '中位数', data: codes.map(c => PE_DATA[c].pe_median), backgroundColor: '#faad1430', borderColor: '#faad14', borderWidth: 1 },
+            { label: '当前PE', data: codes.map(c => PE_DATA[c].current_pe), backgroundColor: '#722ed130', borderColor: '#722ed1', borderWidth: 2 },
+            { label: '80%分位', data: codes.map(c => PE_DATA[c].pe_p80), backgroundColor: '#fa8c1630', borderColor: '#fa8c16', borderWidth: 1 },
+            { label: '历史最高PE', data: codes.map(c => PE_DATA[c].pe_max), backgroundColor: '#cf132215', borderColor: '#cf132280', borderWidth: 1, borderDash: [4,4] },
         ]
     };
-    
-    new Chart(ctx, {
+
+    const chart = new Chart(ctx, {
         type: 'bar',
         data: barData,
         plugins: [ChartDataLabels],
@@ -529,30 +478,22 @@ function renderPeDistChart() {
             maintainAspectRatio: false,
             plugins: {
                 legend: { position: 'top', labels: { font: { size: 12 } } },
-                tooltip: {
-                    callbacks: {
-                        label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)}`
-                    }
-                },
+                tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)}` } },
                 datalabels: {
-                    anchor: 'end',
-                    align: 'top',
+                    anchor: 'end', align: 'top',
                     formatter: (value) => value.toFixed(1),
                     font: { size: 10, weight: 'bold' },
                     color: (ctx) => ctx.dataset.borderColor,
+                    display: false,
                 }
             },
             scales: {
-                y: {
-                    title: { display: true, text: 'PE(TTM)' },
-                    grid: { color: 'rgba(0,0,0,0.05)' }
-                },
-                x: {
-                    grid: { display: false }
-                }
+                y: { title: { display: true, text: 'PE(TTM)' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+                x: { grid: { display: false } }
             }
         }
     });
+    chartInstances['peDistChart'] = chart;
 }
 
 // ========== 三大指数PE月度走势 ==========
@@ -562,140 +503,90 @@ function renderAllPeChart() {
     const names = ['沪深300', '创业板指', '中证500'];
     const colors = ['#e74c3c', '#3498db', '#2ecc71'];
     const bgColors = ['rgba(231,76,60,0.08)', 'rgba(52,152,219,0.08)', 'rgba(46,204,113,0.08)'];
-    
-    // 取所有指数共有的日期范围
+
     const allDates = PE_DATA['399006'].monthly_pe.slice(-24).map(d => d.date);
-    
-    const datasets = [];
-    codes.forEach((code, i) => {
-        const monthly = PE_DATA[code].monthly_pe.slice(-24);
-        datasets.push({
-            label: names[i] + ' PE',
-            data: monthly.map(d => d.pe),
-            borderColor: colors[i],
-            backgroundColor: bgColors[i],
-            borderWidth: 2.5,
-            fill: false,
-            tension: 0.3,
-            pointRadius: 3,
-            pointHoverRadius: 6,
-        });
-    });
-    
-    new Chart(ctx, {
+
+    const datasets = codes.map((code, i) => ({
+        label: names[i] + ' PE',
+        data: PE_DATA[code].monthly_pe.slice(-24).map(d => d.pe),
+        borderColor: colors[i], backgroundColor: bgColors[i],
+        borderWidth: 2.5, fill: false, tension: 0.3, pointRadius: 3, pointHoverRadius: 6,
+    }));
+
+    const chart = new Chart(ctx, {
         type: 'line',
         data: { labels: allDates, datasets },
         plugins: [ChartDataLabels],
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
+            responsive: true, maintainAspectRatio: false,
             interaction: { mode: 'index', intersect: false },
             plugins: {
                 legend: { position: 'top' },
                 datalabels: {
-                    display: function(ctx) {
-                        // 只在最后一个点显示标签
-                        return ctx.dataIndex === ctx.dataset.data.length - 1;
-                    },
-                    anchor: 'end',
-                    align: 'right',
+                    display: false, anchor: 'end', align: 'right',
                     formatter: (value) => value.toFixed(1),
                     font: { size: 11, weight: 'bold' },
                     color: (ctx) => ctx.dataset.borderColor,
-                    backgroundColor: 'white',
-                    borderRadius: 3,
-                    padding: 2,
+                    backgroundColor: 'white', borderRadius: 3, padding: 2,
                 }
             },
             scales: {
-                y: {
-                    title: { display: true, text: 'PE(TTM) 等权' },
-                    grid: { color: 'rgba(0,0,0,0.05)' }
-                },
-                x: {
-                    grid: { display: false },
-                    ticks: { maxRotation: 45 }
-                }
+                y: { title: { display: true, text: 'PE(TTM) 等权' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+                x: { grid: { display: false }, ticks: { maxRotation: 45 } }
             }
         }
     });
+    chartInstances['allPeChart'] = chart;
 }
 
-// ========== 近期净值走势 ==========
+// ========== 近期净值走势（近10日） ==========
 function renderNavChart() {
     const ctx = document.getElementById('navChart').getContext('2d');
     const funds = Object.entries(FUND_DATA);
     const colors = ['#e74c3c', '#3498db', '#2ecc71', '#722ed1'];
-    
-    // 日期取并集（倒序变正序）
-    const dates = funds[0][1].nav_data.map(d => d.date).reverse();
-    
+    const dates = funds[0][1].nav_data.slice(0, 10).map(d => d.date).reverse();
+
     const yAxes = {
-        '110020': { id: 'y1', position: 'left', name: '沪深300净值' },
-        '110026': { id: 'y2', position: 'right', name: '创业板净值' },
-        '160119': { id: 'y3', position: 'right', name: '中证500净值' },
-        '050025': { id: 'y4', position: 'right', name: '标普500净值' },
+        '110020': { id: 'y1', position: 'left' },
+        '110026': { id: 'y2', position: 'right' },
+        '160119': { id: 'y3', position: 'right' },
+        '050025': { id: 'y4', position: 'right' },
     };
-    
-    const datasets = funds.map(([code, fund], i) => {
-        const axis = yAxes[code] || yAxes['110020'];
-        return {
-            label: fund.name,
-            data: fund.nav_data.map(d => d.nav).reverse(),
-            borderColor: colors[i] || '#999',
-            backgroundColor: (colors[i] || '#999') + '15',
-            borderWidth: 2.5,
-            fill: false,
-            tension: 0.3,
-            pointRadius: 4,
-            pointHoverRadius: 7,
-            yAxisID: axis.id,
-        };
-    });
-    
-    new Chart(ctx, {
+
+    const datasets = funds.map(([code, fund], i) => ({
+        label: fund.name,
+        data: fund.nav_data.slice(0, 10).map(d => d.nav).reverse(),
+        borderColor: colors[i], backgroundColor: colors[i] + '15',
+        borderWidth: 2.5, fill: false, tension: 0.3, pointRadius: 4, pointHoverRadius: 7,
+        yAxisID: yAxes[code].id,
+    }));
+
+    const chart = new Chart(ctx, {
         type: 'line',
         data: { labels: dates, datasets },
+        plugins: [ChartDataLabels],
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
+            responsive: true, maintainAspectRatio: false,
             interaction: { mode: 'index', intersect: false },
             plugins: {
                 legend: { position: 'top' },
+                datalabels: {
+                    display: false, anchor: 'end', align: 'top',
+                    formatter: (value) => value.toFixed(3),
+                    font: { size: 9, weight: 'bold' },
+                    color: (ctx) => ctx.dataset.borderColor,
+                }
             },
             scales: {
                 x: { grid: { display: false }, ticks: { maxRotation: 45 } },
-                y1: {
-                    type: 'linear',
-                    position: 'left',
-                    title: { display: true, text: '沪深300净值', color: colors[0] },
-                    ticks: { color: colors[0] },
-                    grid: { color: 'rgba(0,0,0,0.04)' }
-                },
-                y2: {
-                    type: 'linear',
-                    position: 'right',
-                    title: { display: true, text: '创业板净值', color: colors[1] },
-                    ticks: { color: colors[1] },
-                    grid: { drawOnChartArea: false }
-                },
-                y3: {
-                    type: 'linear',
-                    position: 'right',
-                    title: { display: true, text: '中证500净值', color: colors[2] },
-                    ticks: { color: colors[2] },
-                    grid: { drawOnChartArea: false }
-                },
-                y4: {
-                    type: 'linear',
-                    position: 'right',
-                    title: { display: true, text: '标普500净值', color: colors[3] },
-                    ticks: { color: colors[3] },
-                    grid: { drawOnChartArea: false }
-                }
+                y1: { type: 'linear', position: 'left', title: { display: true, text: '沪深300净值', color: colors[0] }, ticks: { color: colors[0] }, grid: { color: 'rgba(0,0,0,0.04)' } },
+                y2: { type: 'linear', position: 'right', title: { display: true, text: '创业板净值', color: colors[1] }, ticks: { color: colors[1] }, grid: { drawOnChartArea: false } },
+                y3: { type: 'linear', position: 'right', title: { display: true, text: '中证500净值', color: colors[2] }, ticks: { color: colors[2] }, grid: { drawOnChartArea: false } },
+                y4: { type: 'linear', position: 'right', title: { display: true, text: '标普500净值', color: colors[3] }, ticks: { color: colors[3] }, grid: { drawOnChartArea: false } },
             }
         }
     });
+    chartInstances['navChart'] = chart;
 }
 
 // ========== 区间收益对比 ==========
@@ -704,135 +595,189 @@ function renderReturnChart() {
     const periods = ['近1周', '近1月', '近3月', '近6月', '近1年', '近2年', '近3年', '今年来', '成立来'];
     const colors = ['#e74c3c', '#3498db', '#2ecc71', '#722ed1'];
     const bgColors = ['rgba(231,76,60,0.15)', 'rgba(52,152,219,0.15)', 'rgba(46,204,113,0.15)', 'rgba(114,46,209,0.15)'];
-    
-    const datasets = Object.entries(FUND_DATA).map(([code, fund], i) => {
-        return {
-            label: fund.name,
-            data: periods.map(p => fund.return_data[p] || 0),
-            backgroundColor: bgColors[i],
-            borderColor: colors[i],
-            borderWidth: 2,
-            barPercentage: 0.75,
-            categoryPercentage: 0.8,
-        };
-    });
-    
-    new Chart(ctx, {
+
+    const datasets = Object.entries(FUND_DATA).map(([code, fund], i) => ({
+        label: fund.name,
+        data: periods.map(p => fund.return_data[p] || 0),
+        backgroundColor: bgColors[i], borderColor: colors[i], borderWidth: 2,
+        barPercentage: 0.75, categoryPercentage: 0.8,
+    }));
+
+    const chart = new Chart(ctx, {
         type: 'bar',
         data: { labels: periods, datasets },
         plugins: [ChartDataLabels],
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
+            responsive: true, maintainAspectRatio: false,
             plugins: {
                 legend: { position: 'top' },
-                tooltip: {
-                    callbacks: {
-                        label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y >= 0 ? '+' : ''}${ctx.parsed.y.toFixed(2)}%`
-                    }
-                },
+                tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y >= 0 ? '+' : ''}${ctx.parsed.y.toFixed(2)}%` } },
                 datalabels: {
+                    display: false,
                     anchor: (ctx) => ctx.dataset.data[ctx.dataIndex] >= 0 ? 'end' : 'start',
                     align: (ctx) => ctx.dataset.data[ctx.dataIndex] >= 0 ? 'top' : 'bottom',
                     formatter: (value) => (value >= 0 ? '+' : '') + value.toFixed(1) + '%',
                     font: { size: 8, weight: 'bold' },
-                    color: (ctx) => ctx.dataset.borderColor,
-                    padding: 2,
-                    display: function(ctx) {
-                        // 成立来数据太大，只在柱子上方显示，不挤在一起
-                        const idx = ctx.dataIndex;
-                        const val = ctx.dataset.data[idx];
-                        // 近1周、近3月等小区间值太小时隐藏标签，避免重叠
-                        if (idx <= 2 && Math.abs(val) < 5) return false;
-                        return true;
-                    },
+                    color: (ctx) => ctx.dataset.borderColor, padding: 2,
                 }
             },
             scales: {
-                y: {
-                    title: { display: true, text: '收益率(%)' },
-                    grid: { color: 'rgba(0,0,0,0.05)' }
-                },
+                y: { title: { display: true, text: '收益率(%)' }, grid: { color: 'rgba(0,0,0,0.05)' } },
                 x: { grid: { display: false } }
             }
         }
     });
+    chartInstances['returnChart'] = chart;
+}
+
+// ========== 近30日净值折线图（全部历史数据）==========
+function renderDailyReturnChart() {
+    const ctx = document.getElementById('dailyReturnChart').getContext('2d');
+    const fundColors = {
+        '110020': { line: '#e74c3c', bg: 'rgba(231,76,60,0.06)' },
+        '110026': { line: '#3498db', bg: 'rgba(52,152,219,0.06)' },
+        '160119': { line: '#2ecc71', bg: 'rgba(46,204,113,0.06)' },
+        '050025': { line: '#722ed1', bg: 'rgba(114,46,209,0.06)' },
+    };
+    const fundNames = { '110020': '沪深300', '110026': '创业板', '160119': '中证500', '050025': '标普500' };
+
+    // 收集所有基金的全部净值历史日期（最多取30天）
+    const allDatesSet = new Set();
+    Object.values(FUND_DATA).forEach(f => f.nav_data.forEach(d => allDatesSet.add(d.date)));
+    const sortedDates = Array.from(allDatesSet).sort().slice(-30);
+
+    const datasets = Object.keys(FUND_DATA).map(code => {
+        const fund = FUND_DATA[code];
+        const color = fundColors[code];
+        const dateNavMap = {};
+        fund.nav_data.forEach(d => { dateNavMap[d.date] = d.nav; });
+        return {
+            label: fundNames[code],
+            data: sortedDates.map(date => dateNavMap[date] || null),
+            borderColor: color.line, backgroundColor: color.bg,
+            borderWidth: 2, fill: true, tension: 0.3, pointRadius: 3, pointHoverRadius: 6,
+        };
+    });
+
+    const chart = new Chart(ctx, {
+        type: 'line',
+        data: { labels: sortedDates, datasets },
+        plugins: [ChartDataLabels],
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'top' },
+                datalabels: {
+                    display: false, anchor: 'end', align: 'top',
+                    formatter: (value) => value ? value.toFixed(2) : '',
+                    font: { size: 9, weight: 'bold' },
+                    color: (ctx) => ctx.dataset.borderColor,
+                }
+            },
+            scales: {
+                y: { title: { display: true, text: '净值' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+                x: { grid: { display: false }, ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 15 } }
+            }
+        }
+    });
+    chartInstances['dailyReturnChart'] = chart;
+    renderTrendSummary(sortedDates);
+}
+
+// ========== 趋势汇总卡片 ==========
+function renderTrendSummary(sortedDates) {
+    const container = document.getElementById('trendSummary');
+    const fundColors = {
+        '110020': { bg: 'linear-gradient(135deg, #fff1f0, #ffe7e6)', text: '#cf1322' },
+        '110026': { bg: 'linear-gradient(135deg, #e6f7ff, #bae7ff)', text: '#1890ff' },
+        '160119': { bg: 'linear-gradient(135deg, #f6ffed, #d9f7be)', text: '#52c41a' },
+        '050025': { bg: 'linear-gradient(135deg, #f9f0ff, #efdbff)', text: '#722ed1' },
+    };
+    const fundNames = { '110020': '沪深300', '110026': '创业板', '160119': '中证500', '050025': '标普500' };
+
+    const cards = Object.keys(FUND_DATA).map(code => {
+        const fund = FUND_DATA[code];
+        const color = fundColors[code];
+        const dateNavMap = {};
+        fund.nav_data.forEach(d => { dateNavMap[d.date] = d.nav; });
+        // 用该基金自己的净值首尾计算累计涨跌（避免QDII日期不同步问题）
+        const fundDates = sortedDates.filter(d => dateNavMap[d] !== undefined);
+        const first = fundDates.length > 0 ? dateNavMap[fundDates[0]] : null;
+        const last = fundDates.length > 0 ? dateNavMap[fundDates[fundDates.length - 1]] : null;
+        const cumulative = first && last ? ((last - first) / first * 100) : null;
+        const latestDay = fund.nav_data[0];
+        const dayReturn = latestDay ? latestDay.daily_return : 0;
+
+        return `<div class="trend-card" style="background:${color.bg}">
+            <div class="trend-name">${fundNames[code]}</div>
+            <div class="trend-return" style="color:${color.text}">${cumulative !== null ? (cumulative >= 0 ? '+' : '') + cumulative.toFixed(2) + '%' : '--'}</div>
+            <div class="trend-detail">近${sortedDates.length}日累计涨跌</div>
+            <div style="margin-top:8px;font-size:13px;font-weight:600;color:${dayReturn >= 0 ? '#cf1322' : '#3f8600'}">${dayReturn >= 0 ? '+' : ''}${dayReturn.toFixed(2)}%</div>
+            <div class="trend-detail">最新日涨跌</div>
+        </div>`;
+    });
+    container.innerHTML = cards.join('');
 }
 
 // ========== 投资建议 ==========
 function renderAdvice() {
     const section = document.getElementById('adviceSection');
     let html = '<h2>💡 投资分析与建议</h2>';
-    
-    // 逐基金分析
+
     const advices = [
         {
-            fund: FUND_DATA['110020'],
-            pe: PE_DATA['000300'],
-            bgClass: 'green-bg',
-            icon: '🟢',
-            summary: '估值适中偏低，安心持有',
-            analysis: `当前沪深300 PE为23.75，处于历史47.01%分位，略低于中位数24.16，估值处于<strong>中等偏低</strong>水平。PB为2.40，处于39.51%分位，同样偏低。`,
-            suggestion: `您4月初买入时沪深300估值在类似水平，当前估值安全边际尚可。沪深300代表A股核心资产，长期收益稳健。建议<strong>继续持有</strong>，等待估值修复至中位数以上。若PE降至20以下可考虑加仓，超过30（80%分位附近）可开始分批卖出。`,
+            fund: FUND_DATA['110020'], pe: PE_DATA['000300'],
+            bgClass: 'green-bg', icon: '🟢', summary: '估值适中偏低，安心持有',
+            analysis: '当前沪深300 PE为${PE_DATA["000300"].current_pe}，处于历史${PE_DATA["000300"].pe_percentile}%分位，略低于中位数${PE_DATA["000300"].pe_median}，估值处于<strong>中等偏低</strong>水平。PB为${PE_DATA["000300"].current_pb}，处于${PE_DATA["000300"].pb_percentile}%分位，同样偏低。',
+            suggestion: '沪深300代表A股核心资产，长期收益稳健。建议<strong>继续持有</strong>，等待估值修复至中位数以上。若PE降至20以下可考虑加仓，超过30（80%分位附近）可开始分批卖出。',
         },
         {
-            fund: FUND_DATA['110026'],
-            pe: PE_DATA['399006'],
-            bgClass: 'yellow-bg',
-            icon: '🟡',
-            summary: '估值中等偏上，持有观望',
-            analysis: `当前创业板PE为48.85，处于历史53.40%分位，略高于中位数47.9。值得注意的是，2024年8月创业板PE曾跌至26.34（历史最低附近，百分位仅1.17%），之后经历大幅反弹，从最低点到当前涨幅已非常可观。近1年收益率高达86.10%，反映了这轮强劲反弹。`,
-            suggestion: `您4月初买入时，创业板已经从底部大幅反弹。当前PE处于中等水平，短期波动可能加大。建议<strong>持有为主，暂不加仓</strong>。若PE回落至37以下（25%分位）可加仓，超过60（75%分位）可开始分批减仓。创业板波动大，务必控制仓位。`,
+            fund: FUND_DATA['110026'], pe: PE_DATA['399006'],
+            bgClass: 'yellow-bg', icon: '🟡', summary: '估值中等偏上，持有观望',
+            analysis: '当前创业板PE为${PE_DATA["399006"].current_pe}，处于历史${PE_DATA["399006"].pe_percentile}%分位，略高于中位数${PE_DATA["399006"].pe_median}。2024年8月创业板PE曾跌至26.34（历史最低附近），之后经历大幅反弹。近1年收益率高达${FUND_DATA["110026"].return_data["近1年"]}%，反映了这轮强劲反弹。',
+            suggestion: '创业板波动大，短期波动可能加大。建议<strong>持有为主，暂不加仓</strong>。若PE回落至37以下（25%分位）可加仓，超过60（75%分位）可开始分批减仓。创业板波动大，务必控制仓位。',
         },
         {
-            fund: FUND_DATA['160119'],
-            pe: PE_DATA['000905'],
-            bgClass: 'yellow-bg',
-            icon: '🟡',
-            summary: '估值中等偏上，持有为主',
-            analysis: `当前中证500 PE为39.18，处于历史61.76%分位，高于中位数34.15，估值处于<strong>中等偏高</strong>水平。PB为2.90，同样处于61.76%分位。近1年收益率46.96%，表现不错但近3个月回撤3.81%。`,
-            suggestion: `中证500代表中盘股，弹性较大。当前估值略高于中位数，但离高估区（80%分位52.31）还有距离。建议<strong>持有为主</strong>，可等估值回落至34以下（中位数下方）再考虑加仓。若PE超过52可开始分批减仓。`,
+            fund: FUND_DATA['160119'], pe: PE_DATA['000905'],
+            bgClass: 'yellow-bg', icon: '🟡', summary: '估值中等偏上，持有为主',
+            analysis: '当前中证500 PE为${PE_DATA["000905"].current_pe}，处于历史${PE_DATA["000905"].pe_percentile}%分位，高于中位数${PE_DATA["000905"].pe_median}，估值处于<strong>中等偏高</strong>水平。PB为${PE_DATA["000905"].current_pb}，同样处于${PE_DATA["000905"].pb_percentile}%分位。',
+            suggestion: '中证500代表中盘股，弹性较大。当前估值略高于中位数，但离高估区（80%分位${PE_DATA["000905"].pe_p80}）还有距离。建议<strong>持有为主</strong>，可等估值回落至34以下再考虑加仓。',
         },
         {
-            fund: FUND_DATA['050025'],
-            pe: null,
-            bgClass: 'green-bg',
-            icon: '🟢',
-            summary: '美股核心资产，长期定投',
-            analysis: `博时标普500ETF联接A(050025)跟踪标普500指数，覆盖美国最大的500家上市公司，行业分布分散（科技约30%、医疗约13%、金融约13%等），是全球最主流的宽基指数之一。近1年收益率25.01%，近5年85.23%，近10年196.78%，长期收益稳健。当前标普500指数PE约25-28倍，处于历史偏高水平，但美股PE体系与A股不同，不能简单套用A股的百分位策略。`,
-            suggestion: `标普500是您投资组合中的<strong>"防弹衣"</strong>——A股跌的时候美股不一定跌，起到分散风险的作用。建议<strong>固定金额250元/月定投，暂不动态调仓</strong>。注意：①每日限购100元，需分3天买入（如9/10/11日各100/100/50元）；②QDII基金赎回约7天到账，不适合短期操作；③存在汇率风险，美元升值额外赚、贬值额外亏。长期持有（3年以上）是最佳策略。`,
+            fund: FUND_DATA['050025'], pe: null,
+            bgClass: 'green-bg', icon: '🟢', summary: '美股核心资产，长期定投',
+            analysis: '博时标普500ETF联接A(050025)跟踪标普500指数，覆盖美国最大的500家上市公司。近1年收益率${FUND_DATA["050025"].return_data["近1年"]}%，近3年${FUND_DATA["050025"].return_data["近3年"]}%，长期收益稳健。',
+            suggestion: '标普500是您投资组合中的<strong>"防弹衣"</strong>。建议<strong>固定金额250元/月定投，暂不动态调仓</strong>。注意：①每日限购100元，需分3天买入；②QDII基金赎回约7天到账，不适合短期操作；③存在汇率风险。',
         },
     ];
-    
+
     advices.forEach(a => {
-        html += `
-        <div class="advice-item ${a.bgClass}">
+        html += `<div class="advice-item ${a.bgClass}">
             <h4>${a.icon} ${a.fund.name}（跟踪${a.fund.index}）— ${a.summary}</h4>
             <p>${a.analysis}</p>
             <p class="highlight" style="margin-top:8px">📋 操作建议：${a.suggestion}</p>
         </div>`;
     });
-    
-    // 综合建议
-    html += `
-    <div class="advice-item blue-bg">
+
+    html += `<div class="advice-item blue-bg">
         <h4>📋 综合投资建议（基于1年以上持有周期）</h4>
-        <p><strong>1. 整体仓位评估：</strong>您持有4只基金，覆盖A股大盘蓝筹（沪深300）、成长风格（创业板）、中盘（中证500）和美股大盘（标普500），风格互补性好，A/美股分散风险。当前A股3只基金整体估值处于历史中等水平，不具备极端高估风险。</p>
+        <p><strong>1. 整体仓位评估：</strong>您持有4只基金，覆盖A股大盘蓝筹（沪深300）、成长风格（创业板）、中盘（中证500）和美股大盘（标普500），风格互补性好，A/美股分散风险。当前A股3只基金整体估值处于历史中等水平。</p>
         <p><strong>2. 定投方案（每月9日，月投1200元）：</strong></p>
         <p>&nbsp;&nbsp;• 沪深300：500元/月（动态调仓）</p>
         <p>&nbsp;&nbsp;• 创业板：200元/月（动态调仓）</p>
         <p>&nbsp;&nbsp;• 中证500：250元/月（动态调仓）</p>
         <p>&nbsp;&nbsp;• 标普500：250元/月（固定金额，限购100元/天需分批）</p>
-        <p><strong>3. 持有策略：</strong>您计划持有1年以上才分批卖出，这是明智的长期投资思路。指数基金长期持有的胜率较高。根据历史数据，在PE处于30%-60%分位区间持有1年，正收益概率约70%以上。</p>
+        <p><strong>3. 持有策略：</strong>您计划持有1年以上才分批卖出，这是明智的长期投资思路。指数基金长期持有胜率较高。</p>
         <p><strong>4. 分批卖出参考标准：</strong></p>
         <p>&nbsp;&nbsp;• 沪深300：PE超过29.9（80%分位）可开始分批卖出</p>
-        <p>&nbsp;&nbsp;• 创业板指：PE超过60.5（75%分位）可开始分批卖出</p>
+        <p>&nbsp;&nbsp;• 创业板指：PE超过64.5（75%分位）可开始分批卖出</p>
         <p>&nbsp;&nbsp;• 中证500：PE超过52.3（80%分位）可开始分批卖出</p>
         <p>&nbsp;&nbsp;• 标普500：暂不设卖出标准，长期持有为主</p>
         <p>&nbsp;&nbsp;• 建议分3次卖出，每次卖出1/3仓位，间隔至少1个月</p>
-        <p><strong>5. 标普500特别提示：</strong>博时标普500联接A(050025)每日限购100元，每月250元需分3天买入（如9/10/11日各买100/100/50元）。QDII基金赎回约7天到账，适合长期持有。</p>
+        <p><strong>5. 标普500特别提示：</strong>博时标普500联接A每日限购100元，每月250元需分3天买入。QDII基金赎回约7天到账，适合长期持有。</p>
     </div>`;
-    
+
     section.innerHTML = html;
 }
 
@@ -841,60 +786,39 @@ function renderPlan() {
     const section = document.getElementById('planSection');
     const aSharePct = ((500 + 200 + 250) / 1200 * 100).toFixed(0);
     const usSharePct = (250 / 1200 * 100).toFixed(0);
-    
     section.innerHTML = `
     <h2>💰 我的定投方案（每月9日）</h2>
     <div class="plan-grid">
         <div class="plan-card card-hs300">
-            <div class="plan-icon">🇨🇳</div>
-            <div class="plan-name">沪深300</div>
-            <div class="plan-amount">500</div>
-            <div class="plan-unit">元/月</div>
+            <div class="plan-icon">🇨🇳</div><div class="plan-name">沪深300</div>
+            <div class="plan-amount">500</div><div class="plan-unit">元/月</div>
             <div class="plan-tag">PE百分位动态调仓</div>
             <div class="plan-fund">110020 易方达联接A</div>
         </div>
         <div class="plan-card card-cyb">
-            <div class="plan-icon">🇨🇳</div>
-            <div class="plan-name">创业板</div>
-            <div class="plan-amount">200</div>
-            <div class="plan-unit">元/月</div>
+            <div class="plan-icon">🇨🇳</div><div class="plan-name">创业板</div>
+            <div class="plan-amount">200</div><div class="plan-unit">元/月</div>
             <div class="plan-tag">PE百分位动态调仓</div>
             <div class="plan-fund">110026 易方达联接A</div>
         </div>
         <div class="plan-card card-zz500">
-            <div class="plan-icon">🇨🇳</div>
-            <div class="plan-name">中证500</div>
-            <div class="plan-amount">250</div>
-            <div class="plan-unit">元/月</div>
+            <div class="plan-icon">🇨🇳</div><div class="plan-name">中证500</div>
+            <div class="plan-amount">250</div><div class="plan-unit">元/月</div>
             <div class="plan-tag">PE百分位动态调仓</div>
             <div class="plan-fund">160119 南方联接A</div>
         </div>
         <div class="plan-card card-sp500">
-            <div class="plan-icon">🇺🇸</div>
-            <div class="plan-name">标普500</div>
-            <div class="plan-amount">250</div>
-            <div class="plan-unit">元/月</div>
+            <div class="plan-icon">🇺🇸</div><div class="plan-name">标普500</div>
+            <div class="plan-amount">250</div><div class="plan-unit">元/月</div>
             <div class="plan-tag">固定金额</div>
             <div class="plan-fund">050025 博时联接A</div>
         </div>
     </div>
     <div class="plan-summary">
-        <div class="plan-summary-item">
-            <div class="sum-label">月定投总额</div>
-            <div class="sum-value">¥1,200</div>
-        </div>
-        <div class="plan-summary-item">
-            <div class="sum-label">A股占比</div>
-            <div class="sum-value">${aSharePct}%</div>
-        </div>
-        <div class="plan-summary-item">
-            <div class="sum-label">美股占比</div>
-            <div class="sum-value">${usSharePct}%</div>
-        </div>
-        <div class="plan-summary-item">
-            <div class="sum-label">动态调仓</div>
-            <div class="sum-value">A股三只</div>
-        </div>
+        <div class="plan-summary-item"><div class="sum-label">月定投总额</div><div class="sum-value">¥1,200</div></div>
+        <div class="plan-summary-item"><div class="sum-label">A股占比</div><div class="sum-value">${aSharePct}%</div></div>
+        <div class="plan-summary-item"><div class="sum-label">美股占比</div><div class="sum-value">${usSharePct}%</div></div>
+        <div class="plan-summary-item"><div class="sum-label">动态调仓</div><div class="sum-value">A股三只</div></div>
     </div>
     <div class="plan-rules">
         📋 <strong>A股动态定投规则：</strong>PE百分位 0-30% → 1.5倍加仓 | 30-50% → 正常定投 | 50-70% → 0.7倍减量 | 70%+ → 暂停<br>
@@ -923,8 +847,10 @@ renderFundCards();
 renderPeDistChart();
 renderAllPeChart();
 renderNavChart();
+renderDailyReturnChart();
 renderReturnChart();
 renderAdvice();
+
 </script>
 </body>
 </html>
