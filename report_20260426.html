@@ -13,7 +13,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
 .header h1 { font-size: 30px; color: #1a1a2e; margin-bottom: 8px; }
 .header .update-time { color: #888; font-size: 14px; }
 .header .badge { display: inline-block; background: #52c41a; color: white; padding: 2px 12px; border-radius: 12px; font-size: 12px; margin-left: 8px; }
-.history-bar { text-align: center; margin: -16px 0 24px 0; font-size: 13px; color: #888; }
 .history-bar a { color: #1890ff; text-decoration: none; margin: 0 6px; padding: 2px 10px; border-radius: 10px; background: #e6f7ff; transition: all 0.2s; }
 .history-bar a:hover { background: #1890ff; color: white; }
 .history-bar a.current { background: #1890ff; color: white; }
@@ -157,9 +156,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
 </head>
 <body>
 <style>
-.history-bar { text-align: center; margin: -16px 0 24px 0; font-size: 13px; color: #888; }
-.history-bar a { color: #1890ff; text-decoration: none; margin: 0 6px; padding: 2px 10px; border-radius: 10px; background: #e6f7ff; transition: all 0.2s; }
-.history-bar a:hover { background: #1890ff; color: white; }
+.history-bar { background: #1a1a2e; padding: 10px 20px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; font-size: 13px; color: #8b8ba7; }
+.history-bar a { color: #8b8ba7; text-decoration: none; padding: 2px 10px; border-radius: 10px; }
+.history-bar a:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.history-bar .sep { color: #444; }
+.history-bar .select-wrap { display: flex; align-items: center; gap: 8px; }
 </style>
 <div class="history-bar">
     <a href="index.html">🏠 返回首页</a>
@@ -168,13 +169,21 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
         <label style="color:#666">📅</label>
         <select id="dateSelect" onchange="location=this.value" style="background:#1a1a2e;color:#8b8ba7;border:1px solid #333;border-radius:8px;padding:4px 8px;font-size:13px;cursor:pointer">
             <option value="">-- 选择日期 --</option>
-            <option value="report_20260430.html">2026-04-30 (今日)</option>
-            <option value="report_20260429.html">2026-04-29 </option>
-            <option value="report_20260428.html">2026-04-28 </option>
-            <option value="report_20260427.html">2026-04-27 </option>
-            <option value="report_20260426.html">2026-04-26 </option>
+            <option value="report_20260430.html">4月30日 (今日)</option>
+            <option value="report_20260429.html">4月29日</option>
+            <option value="report_20260428.html">4月28日</option>
+            <option value="report_20260427.html">4月27日</option>
+            <option value="report_20260426.html">4月26日</option>
         </select>
     </div>
+    <span class="sep">|</span>
+    <span style="color:#00c853">4月26日</span>
+</div>
+
+<style>
+.history-bar a { color: #1890ff; text-decoration: none; margin: 0 6px; padding: 2px 10px; border-radius: 10px; background: #e6f7ff; transition: all 0.2s; }
+.history-bar a:hover { background: #1890ff; color: white; }
+</style>
     <span class="sep">|</span>
     <span style="color:#00c853">4月26日（今日）</span>
 </div>
@@ -187,20 +196,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
     <p class="update-time">数据更新时间：2026-04-26 14:47 <span class="badge">自动更新</span></p>
 </div>
 
-<div class="history-bar">
-    <a href="index.html">🏠 返回首页</a>
-    <span class="sep">|</span>
-    <div class="select-wrap">
-        <label style="color:#666">📅</label>
-        <select id="dateSelect" onchange="location=this.value" style="background:#1a1a2e;color:#8b8ba7;border:1px solid #333;border-radius:8px;padding:4px 8px;font-size:13px;cursor:pointer">
-            <option value="">-- 选择日期 --</option>
-            <option value="report_20260430.html">2026-04-30 (今日)</option>
-            <option value="report_20260429.html">2026-04-29 </option>
-            <option value="report_20260428.html">2026-04-28 </option>
-            <option value="report_20260427.html">2026-04-27 </option>
-            <option value="report_20260426.html">2026-04-26 </option>
-        </select>
-    </div>
     <span class="sep">|</span>
     <span style="color:#00c853">4月26日（今日）</span>
 </div>
