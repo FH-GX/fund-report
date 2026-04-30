@@ -144,7 +144,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
 <div class="container">
 <div class="header">
     <h1>📊 基金PE估值与净值分析报告</h1>
-    <p class="update-time">报告生成时间：2026-04-30 21:45 <span class="badge">自动更新</span></p>
+    <p class="update-time">报告生成时间：2026-04-30 21:49 <span class="badge">自动更新</span></p>
     <p class="data-note">📌 数据截止：净值 A股 2026-04-30 | 标普500 2026-04-29 | PE 2026-04</p>
 </div>
 
@@ -718,34 +718,36 @@ function renderAdvice() {
         {
             fund: FUND_DATA['110020'], pe: PE_DATA['000300'],
             bgClass: 'green-bg', icon: '🟢', summary: '估值适中偏低，安心持有',
-            analysis: '当前沪深300 PE为${PE_DATA["000300"].current_pe}，处于历史${PE_DATA["000300"].pe_percentile}%分位，略低于中位数${PE_DATA["000300"].pe_median}，估值处于<strong>中等偏低</strong>水平。PB为${PE_DATA["000300"].current_pb}，处于${PE_DATA["000300"].pb_percentile}%分位，同样偏低。',
+            getAnalysis: () => `当前沪深300 PE为${PE_DATA["000300"].current_pe}，处于历史${PE_DATA["000300"].pe_percentile}%分位，略低于中位数${PE_DATA["000300"].pe_median}，估值处于<strong>中等偏低</strong>水平。PB为${PE_DATA["000300"].current_pb}，处于${PE_DATA["000300"].pb_percentile}%分位，同样偏低。`,
             suggestion: '沪深300代表A股核心资产，长期收益稳健。建议<strong>继续持有</strong>，等待估值修复至中位数以上。若PE降至20以下可考虑加仓，超过30（80%分位附近）可开始分批卖出。',
         },
         {
             fund: FUND_DATA['110026'], pe: PE_DATA['399006'],
             bgClass: 'yellow-bg', icon: '🟡', summary: '估值中等偏上，持有观望',
-            analysis: '当前创业板PE为${PE_DATA["399006"].current_pe}，处于历史${PE_DATA["399006"].pe_percentile}%分位，略高于中位数${PE_DATA["399006"].pe_median}。2024年8月创业板PE曾跌至26.34（历史最低附近），之后经历大幅反弹。近1年收益率高达${FUND_DATA["110026"].return_data["近1年"]}%，反映了这轮强劲反弹。',
+            getAnalysis: () => `当前创业板PE为${PE_DATA["399006"].current_pe}，处于历史${PE_DATA["399006"].pe_percentile}%分位，略高于中位数${PE_DATA["399006"].pe_median}。2024年8月创业板PE曾跌至26.34（历史最低附近），之后经历大幅反弹。近1年收益率高达${FUND_DATA["110026"].return_data["近1年"]}%，反映了这轮强劲反弹。`,
             suggestion: '创业板波动大，短期波动可能加大。建议<strong>持有为主，暂不加仓</strong>。若PE回落至37以下（25%分位）可加仓，超过60（75%分位）可开始分批减仓。创业板波动大，务必控制仓位。',
         },
         {
             fund: FUND_DATA['160119'], pe: PE_DATA['000905'],
             bgClass: 'yellow-bg', icon: '🟡', summary: '估值中等偏上，持有为主',
-            analysis: '当前中证500 PE为${PE_DATA["000905"].current_pe}，处于历史${PE_DATA["000905"].pe_percentile}%分位，高于中位数${PE_DATA["000905"].pe_median}，估值处于<strong>中等偏高</strong>水平。PB为${PE_DATA["000905"].current_pb}，同样处于${PE_DATA["000905"].pb_percentile}%分位。',
-            suggestion: '中证500代表中盘股，弹性较大。当前估值略高于中位数，但离高估区（80%分位${PE_DATA["000905"].pe_p80}）还有距离。建议<strong>持有为主</strong>，可等估值回落至34以下再考虑加仓。',
+            getAnalysis: () => `当前中证500 PE为${PE_DATA["000905"].current_pe}，处于历史${PE_DATA["000905"].pe_percentile}%分位，高于中位数${PE_DATA["000905"].pe_median}，估值处于<strong>中等偏高</strong>水平。PB为${PE_DATA["000905"].current_pb}，同样处于${PE_DATA["000905"].pb_percentile}%分位。`,
+            getSuggestion: () => `中证500代表中盘股，弹性较大。当前估值略高于中位数，但离高估区（80%分位${PE_DATA["000905"].pe_p80}）还有距离。建议<strong>持有为主</strong>，可等估值回落至34以下再考虑加仓。`,
         },
         {
             fund: FUND_DATA['050025'], pe: null,
             bgClass: 'green-bg', icon: '🟢', summary: '美股核心资产，长期定投',
-            analysis: '博时标普500ETF联接A(050025)跟踪标普500指数，覆盖美国最大的500家上市公司。近1年收益率${FUND_DATA["050025"].return_data["近1年"]}%，近3年${FUND_DATA["050025"].return_data["近3年"]}%，长期收益稳健。',
+            getAnalysis: () => `博时标普500ETF联接A(050025)跟踪标普500指数，覆盖美国最大的500家上市公司。近1年收益率${FUND_DATA["050025"].return_data["近1年"]}%，近3年${FUND_DATA["050025"].return_data["近3年"]}%，长期收益稳健。`,
             suggestion: '标普500是您投资组合中的<strong>"防弹衣"</strong>。建议<strong>固定金额250元/月定投，暂不动态调仓</strong>。注意：①每日限购100元，需分3天买入；②QDII基金赎回约7天到账，不适合短期操作；③存在汇率风险。',
         },
     ];
 
     advices.forEach(a => {
+        const analysisText = a.getAnalysis ? a.getAnalysis() : (a.analysis || '');
+        const suggestionText = a.getSuggestion ? a.getSuggestion() : (a.suggestion || '');
         html += `<div class="advice-item ${a.bgClass}">
             <h4>${a.icon} ${a.fund.name}（跟踪${a.fund.index}）— ${a.summary}</h4>
-            <p>${a.analysis}</p>
-            <p class="highlight" style="margin-top:8px">📋 操作建议：${a.suggestion}</p>
+            <p>${analysisText}</p>
+            <p class="highlight" style="margin-top:8px">📋 操作建议：${suggestionText}</p>
         </div>`;
     });
 
