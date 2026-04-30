@@ -161,13 +161,25 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
 .history-bar a { color: #1890ff; text-decoration: none; margin: 0 6px; padding: 2px 10px; border-radius: 10px; background: #e6f7ff; transition: all 0.2s; }
 .history-bar a:hover { background: #1890ff; color: white; }
 </style>
-<div class="history-bar">📂 历史报告：
-    <a href="report_20260426.html">4月26日</a>
-    <a href="report_20260427.html" class="current">4月27日</a>
-    <a href="report_20260428.html">4月28日</a>
-    <a href="report_20260429.html">4月29日</a>
-    <a href="report_20260430.html">4月30日</a>
-    <a href="index.html">返回首页</a>
+<div class="history-bar">
+    <a href="index.html">🏠 返回首页</a>
+    <span class="sep">|</span>
+    <div class="select-wrap">
+        <label style="color:#666">📅</label>
+        <select id="dateSelect" onchange="location=this.value" style="background:#1a1a2e;color:#8b8ba7;border:1px solid #333;border-radius:8px;padding:4px 8px;font-size:13px;cursor:pointer">
+            <option value="">-- 选择日期 --</option>
+            <option value="report_20260430.html">2026-04-30 (今日)</option>
+            <option value="report_20260429.html">2026-04-29 </option>
+            <option value="report_20260428.html">2026-04-28 </option>
+            <option value="report_20260427.html">2026-04-27 </option>
+            <option value="report_20260426.html">2026-04-26 </option>
+        </select>
+    </div>
+    <span class="sep">|</span>
+    <span style="color:#00c853">4月27日（今日）</span>
+</div>
+    <span class="sep">|</span>
+    <span style="color:#00c853">4月27日（今日）</span>
 </div>
 <div class="container">
 <div class="header">
@@ -175,12 +187,25 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
     <p class="update-time">数据更新时间：2026-04-27 22:06 <span class="badge">自动更新</span></p>
 </div>
 
-<div class="history-bar">📂 历史报告：
-    <a href="report_20260426.html">4月26日</a>
-    <a href="report_20260427.html" class="current">4月27日</a>
-    <a href="report_20260428.html">4月28日</a>
-    <a href="index.html">4月29日(最新)</a>
-    <a href="index.html">返回首页</a>
+<div class="history-bar">
+    <a href="index.html">🏠 返回首页</a>
+    <span class="sep">|</span>
+    <div class="select-wrap">
+        <label style="color:#666">📅</label>
+        <select id="dateSelect" onchange="location=this.value" style="background:#1a1a2e;color:#8b8ba7;border:1px solid #333;border-radius:8px;padding:4px 8px;font-size:13px;cursor:pointer">
+            <option value="">-- 选择日期 --</option>
+            <option value="report_20260430.html">2026-04-30 (今日)</option>
+            <option value="report_20260429.html">2026-04-29 </option>
+            <option value="report_20260428.html">2026-04-28 </option>
+            <option value="report_20260427.html">2026-04-27 </option>
+            <option value="report_20260426.html">2026-04-26 </option>
+        </select>
+    </div>
+    <span class="sep">|</span>
+    <span style="color:#00c853">4月27日（今日）</span>
+</div>
+    <span class="sep">|</span>
+    <span style="color:#00c853">4月27日（今日）</span>
 </div>
 
 <!-- PE估值概览 -->
