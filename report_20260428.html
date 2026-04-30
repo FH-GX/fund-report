@@ -142,6 +142,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
 </head>
 <body>
 <style>
+.history-bar { background: #1a1a2e; padding: 10px 20px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; font-size: 13px; color: #8b8ba7; }
+.history-bar a { color: #8b8ba7; text-decoration: none; padding: 2px 10px; border-radius: 10px; }
+.history-bar a:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.history-bar .sep { color: #444; }
+.history-bar .select-wrap { display: flex; align-items: center; gap: 8px; }
 </style>
 <div class="history-bar">
     <a href="index.html">🏠 返回首页</a>
@@ -160,19 +165,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
     <span class="sep">|</span>
     <span style="color:#00c853">4月28日</span>
 </div>
-
 <div class="container">
 <div class="header">
     <h1>📊 基金PE估值与净值分析报告</h1>
     <p class="update-time">报告生成时间：2026-04-28 21:45 <span class="badge">自动更新</span></p>
     <p class="data-note">📌 数据截止：净值 A股 2026-04-28 | 标普500 2026-04-27 | PE 2026-04</p>
-</div>
-
-    <span class="sep">|</span>
-    <span style="color:#00c853">4月28日（今日）</span>
-</div>
-    <span class="sep">|</span>
-    <span style="color:#00c853">4月28日（今日）</span>
 </div>
 
 <div class="plan-section" id="planSection"></div>
