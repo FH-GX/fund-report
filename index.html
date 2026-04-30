@@ -14,27 +14,32 @@ body {
   align-items: center;
   justify-content: center;
 }
-.container { text-align: center; padding: 40px 20px; }
+.container { text-align: center; padding: 40px 20px; width: 100%; }
 .header { margin-bottom: 40px; }
 .header h1 { font-size: 36px; color: #1a1a2e; margin-bottom: 8px; }
 .header p { color: #888; font-size: 14px; }
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; max-width: 800px; margin: 0 auto; }
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+}
 .card {
   background: white;
   border-radius: 16px;
-  padding: 32px 20px;
+  padding: 28px 16px;
   text-decoration: none;
   color: inherit;
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   transition: transform 0.2s, box-shadow 0.2s;
 }
 .card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
-.card-icon { font-size: 40px; margin-bottom: 12px; }
-.card-date { font-size: 22px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+.card-icon { font-size: 36px; margin-bottom: 10px; }
+.card-date { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
 .card-label { font-size: 13px; color: #888; }
-.card.today { background: linear-gradient(135deg, #f0f5ff, #e6e6ff); border: 2px solid #1890ff; }
-.card.today .card-label { color: #1890ff; font-weight: 600; }
-.divider { margin: 32px auto; max-width: 800px; border: none; border-top: 2px dashed #e0e0e0; }
+.card.latest { background: linear-gradient(135deg, #e6f7ff, #bae7ff); border: 2px solid #1890ff; }
+.card.latest .card-label { color: #1890ff; font-weight: 600; }
 .footer { color: #aaa; font-size: 12px; margin-top: 40px; }
 </style>
 </head>
@@ -45,31 +50,26 @@ body {
     <p>选择日期查看历史报告</p>
   </div>
   <div class="cards">
-    <a href="report_20260430.html" class="card today">
-      <div class="card-icon">📅</div>
-      <div class="card-date">4月30日</div>
-      <div class="card-label">今日报告</div>
-    </a>
-    <a href="report_20260429.html" class="card">
-      <div class="card-icon">📋</div>
-      <div class="card-date">4月29日</div>
-      <div class="card-label">查看报告</div>
-    </a>
-    <a href="report_20260428.html" class="card">
-      <div class="card-icon">📋</div>
-      <div class="card-date">4月28日</div>
-      <div class="card-label">查看报告</div>
-    </a>
-    <a href="report_20260427.html" class="card">
-      <div class="card-icon">📋</div>
-      <div class="card-date">4月27日</div>
-      <div class="card-label">查看报告</div>
-    </a>
-    <a href="report_20260426.html" class="card">
-      <div class="card-icon">📋</div>
-      <div class="card-date">4月26日</div>
-      <div class="card-label">查看报告</div>
-    </a>
+            <a class="card latest" href="report_20260430.html">
+                <div class="card-date">2026-04-30</div>
+                <div class="card-label">🆕 最新报告</div>
+            </a>
+            <a class="card" href="report_20260429.html">
+                <div class="card-date">2026-04-29</div>
+                <div class="card-label">📄 历史报告</div>
+            </a>
+            <a class="card" href="report_20260428.html">
+                <div class="card-date">2026-04-28</div>
+                <div class="card-label">📄 历史报告</div>
+            </a>
+            <a class="card" href="report_20260427.html">
+                <div class="card-date">2026-04-27</div>
+                <div class="card-label">📄 历史报告</div>
+            </a>
+            <a class="card" href="report_20260426.html">
+                <div class="card-date">2026-04-26</div>
+                <div class="card-label">📄 历史报告</div>
+            </a>
   </div>
   <div class="footer">
     报告每日自动更新 · 数据来源：akshare / 乐咕乐股
