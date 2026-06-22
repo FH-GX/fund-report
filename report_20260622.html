@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>基金PE估值分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #e8edf2 100%); color: #333; min-height: 100vh; }
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+.header { text-align: center; margin-bottom: 32px; }
+.header h1 { font-size: 30px; color: #1a1a2e; margin-bottom: 8px; }
+.header .update-time { color: #888; font-size: 14px; }
+.header .badge { display: inline-block; background: #52c41a; color: white; padding: 2px 12px; border-radius: 12px; font-size: 12px; margin-left: 8px; }
+.header .data-note { font-size: 13px; color: #666; margin-top: 8px; background: #f5f5f5; padding: 6px 12px; border-radius: 6px; display: inline-block; }
+.plan-section { background: white; border-radius: 16px; padding: 24px; margin-bottom: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+.plan-section h2 { font-size: 18px; color: #1a1a2e; margin-bottom: 20px; padding-left: 12px; border-left: 4px solid #722ed1; }
+.plan-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 16px; }
+.plan-card { border-radius: 12px; padding: 20px; text-align: center; transition: transform 0.2s; cursor: default; }
+.plan-card:hover { transform: translateY(-2px); }
+.plan-card .plan-icon { font-size: 28px; margin-bottom: 8px; }
+.plan-card .plan-name { font-size: 15px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+.plan-card .plan-amount { font-size: 32px; font-weight: 800; margin-bottom: 2px; }
+.plan-card .plan-unit { font-size: 13px; color: #999; }
+.plan-card .plan-tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 10px; margin-top: 8px; }
+.plan-card .plan-fund { font-size: 11px; color: #888; margin-top: 6px; }
+.card-hs300 { background: linear-gradient(135deg, #fff1f0, #ffccc7); }
+.card-hs300 .plan-amount { color: #cf1322; }
+.card-hs300 .plan-tag { background: #cf132220; color: #cf1322; }
+.card-cyb { background: linear-gradient(135deg, #e6f7ff, #bae7ff); }
+.card-cyb .plan-amount { color: #1890ff; }
+.card-cyb .plan-tag { background: #1890ff20; color: #1890ff; }
+.card-zz500 { background: linear-gradient(135deg, #f6ffed, #d9f7be); }
+.card-zz500 .plan-amount { color: #52c41a; }
+.card-zz500 .plan-tag { background: #52c41a20; color: #52c41a; }
+.card-sp500 { background: linear-gradient(135deg, #f9f0ff, #efdbff); }
+.card-sp500 .plan-amount { color: #722ed1; }
+.card-sp500 .plan-tag { background: #722ed120; color: #722ed1; }
+.plan-summary { display: flex; justify-content: center; gap: 32px; padding: 16px; background: #fafafa; border-radius: 10px; }
+.plan-summary-item { text-align: center; }
+.plan-summary-item .sum-label { font-size: 12px; color: #999; }
+.plan-summary-item .sum-value { font-size: 20px; font-weight: 700; color: #1a1a2e; }
+.plan-rules { margin-top: 16px; padding: 12px 16px; background: #fffbe6; border-radius: 8px; border-left: 3px solid #faad14; font-size: 13px; line-height: 1.8; color: #666; }
+.pe-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 32px; }
+.pe-card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); transition: transform 0.2s; }
+.pe-card:hover { transform: translateY(-2px); }
+.pe-card .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.pe-card .index-name { font-size: 22px; font-weight: 700; color: #1a1a2e; }
+.pe-card .risk-tag { font-size: 12px; padding: 3px 10px; border-radius: 10px; background: #f0f0f0; color: #666; }
+.pe-card .fund-name { font-size: 13px; color: #999; margin-bottom: 16px; }
+.pe-card .pe-big { font-size: 42px; font-weight: 800; line-height: 1; }
+.pe-card .pe-unit { font-size: 14px; color: #888; margin-top: 4px; }
+.temp-bar { position: relative; height: 24px; margin: 16px 0 8px; border-radius: 12px; background: linear-gradient(to right, #52c41a 0%, #73d13d 20%, #faad14 40%, #ffc53d 60%, #ff7a45 80%, #ff4d4f 100%); }
+.temp-marker { position: absolute; top: -4px; width: 4px; height: 32px; background: #1a1a2e; border-radius: 2px; transition: left 0.5s; }
+.temp-labels { display: flex; justify-content: space-between; font-size: 11px; color: #999; }
+.percentile-text { font-size: 16px; font-weight: 600; margin-top: 12px; }
+.pe-range { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; padding-top: 16px; border-top: 1px solid #f0f0f0; }
+.pe-range-item { text-align: center; }
+.pe-range-item .label { font-size: 11px; color: #999; }
+.pe-range-item .value { font-size: 16px; font-weight: 600; color: #1a1a2e; }
+.fund-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 32px; }
+.fund-card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+.fund-card h3 { font-size: 17px; color: #1a1a2e; margin-bottom: 4px; }
+.fund-card .sub { font-size: 12px; color: #999; margin-bottom: 16px; }
+.fund-card .nav-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; }
+.fund-card .nav-value { font-size: 28px; font-weight: 700; color: #1a1a2e; }
+.fund-card .nav-date { font-size: 12px; color: #999; }
+.return-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.return-item { text-align: center; padding: 8px 4px; border-radius: 8px; }
+.return-item .label { font-size: 11px; color: #999; margin-bottom: 4px; }
+.return-item .value { font-size: 14px; font-weight: 600; }
+.chart-section { background: white; border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+.chart-section h2 { font-size: 18px; color: #1a1a2e; margin-bottom: 20px; padding-left: 12px; border-left: 4px solid #1890ff; }
+.chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.chart-header h2 { font-size: 18px; color: #1a1a2e; padding-left: 12px; border-left: 4px solid #1890ff; margin-bottom: 0; }
+.toggle-btn { padding: 6px 16px; border-radius: 20px; border: 2px solid #1890ff; background: white; color: #1890ff; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; user-select: none; }
+.toggle-btn:hover { background: #1890ff; color: white; }
+.toggle-btn.active { background: #1890ff; color: white; }
+.chart-wrapper { position: relative; height: 380px; }
+.chart-small { height: 300px; }
+.trend-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px; }
+.trend-card { border-radius: 12px; padding: 16px; text-align: center; }
+.trend-card .trend-name { font-size: 13px; color: #666; margin-bottom: 6px; }
+.trend-card .trend-return { font-size: 22px; font-weight: 800; }
+.trend-card .trend-detail { font-size: 11px; color: #999; margin-top: 4px; }
+.advice-section { background: white; border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+.advice-section h2 { font-size: 18px; color: #1a1a2e; margin-bottom: 20px; padding-left: 12px; border-left: 4px solid #1890ff; }
+.advice-item { margin-bottom: 20px; padding: 20px; border-radius: 12px; }
+.advice-item h4 { font-size: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.advice-item p { font-size: 14px; line-height: 1.9; color: #555; }
+.advice-item .highlight { font-weight: 700; color: #1a1a2e; }
+.green-bg { background: linear-gradient(135deg, #f6ffed, #f0faf0); border-left: 4px solid #52c41a; }
+.yellow-bg { background: linear-gradient(135deg, #fffbe6, #fff7cc); border-left: 4px solid #faad14; }
+.blue-bg { background: linear-gradient(135deg, #e6f7ff, #f0f5ff); border-left: 4px solid #1890ff; }
+.red-bg { background: linear-gradient(135deg, #fff2f0, #fff1f0); border-left: 4px solid #ff4d4f; }
+.glossary-section { background: white; border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+.glossary-section h2 { font-size: 18px; color: #1a1a2e; margin-bottom: 20px; padding-left: 12px; border-left: 4px solid #1890ff; }
+.glossary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.glossary-card { border-radius: 12px; padding: 20px; transition: transform 0.2s; cursor: pointer; border: 1px solid #f0f0f0; }
+.glossary-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+.glossary-card .term-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.glossary-card .term-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.glossary-card .term-title { font-size: 18px; font-weight: 700; color: #1a1a2e; }
+.glossary-card .term-english { font-size: 12px; color: #999; font-weight: 400; }
+.glossary-card .term-fullname { font-size: 13px; color: #666; margin-bottom: 10px; padding: 2px 8px; background: #f5f5f5; border-radius: 4px; display: inline-block; }
+.glossary-card .term-analogy { font-size: 14px; line-height: 1.8; color: #555; margin-bottom: 12px; padding: 12px; border-radius: 8px; background: #fffbe6; border-left: 3px solid #faad14; }
+.glossary-card .term-analogy .analogy-label { font-weight: 700; color: #d48806; margin-right: 4px; }
+.glossary-card .term-formula { font-size: 13px; line-height: 1.6; color: #666; margin-bottom: 12px; padding: 10px 14px; border-radius: 8px; background: #f6ffed; border-left: 3px solid #52c41a; }
+.glossary-card .term-formula .formula-label { font-weight: 700; color: #389e0d; margin-right: 4px; }
+.glossary-card .term-meaning { font-size: 14px; line-height: 1.8; color: #555; margin-bottom: 10px; }
+.glossary-card .term-meaning .meaning-label { font-weight: 700; color: #1890ff; }
+.glossary-card .term-tip { font-size: 12px; color: #999; line-height: 1.6; padding-top: 10px; border-top: 1px dashed #e8e8e8; }
+.glossary-card .term-tip .tip-icon { margin-right: 4px; }
+.card-pe { background: linear-gradient(135deg, #fff7e6, #fff1f0); }
+.card-pe .term-icon { background: #fff1f0; }
+.card-pb { background: linear-gradient(135deg, #e6f7ff, #f0f5ff); }
+.card-pb .term-icon { background: #e6f7ff; }
+.card-percentile { background: linear-gradient(135deg, #f6ffed, #fcffe6); }
+.card-percentile .term-icon { background: #f6ffed; }
+.card-nav { background: linear-gradient(135deg, #fff0f6, #fff1f0); }
+.card-nav .term-icon { background: #fff0f6; }
+.card-ttm { background: linear-gradient(135deg, #f9f0ff, #f0f5ff); }
+.card-ttm .term-icon { background: #f9f0ff; }
+.card-equal { background: linear-gradient(135deg, #e6fffb, #f0f5ff); }
+.card-equal .term-icon { background: #e6fffb; }
+.card-daily { background: linear-gradient(135deg, #fffbe6, #fff7e6); }
+.card-daily .term-icon { background: #fffbe6; }
+.glossary-toggle { text-align: center; margin-bottom: 16px; }
+.glossary-toggle button { background: #1890ff; color: white; border: none; padding: 8px 24px; border-radius: 20px; font-size: 14px; cursor: pointer; transition: background 0.2s; }
+.glossary-toggle button:hover { background: #40a9ff; }
+.glossary-content { transition: max-height 0.3s ease; overflow: hidden; }
+.disclaimer { text-align: center; color: #aaa; font-size: 12px; margin-top: 20px; padding: 20px; line-height: 1.8; }
+@media (max-width: 768px) {
+    .pe-grid { grid-template-columns: 1fr; }
+    .fund-grid { grid-template-columns: 1fr; }
+    .plan-grid { grid-template-columns: repeat(2, 1fr); }
+    .return-grid { grid-template-columns: repeat(3, 1fr); }
+    .glossary-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<style>
+.history-bar { background: #1a1a2e; padding: 10px 20px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; font-size: 13px; color: #8b8ba7; }
+.history-bar a { color: #8b8ba7; text-decoration: none; padding: 2px 10px; border-radius: 10px; }
+.history-bar a:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.history-bar .sep { color: #444; }
+.history-bar .select-wrap { display: flex; align-items: center; gap: 8px; }
+</style>
+<div class="history-bar">
+    <a href="index.html">🏠 返回首页</a>
+    <span class="sep">|</span>
+    <div class="select-wrap">
+        <label style="color:#666">📅</label>
+        <select id="dateSelect" onchange="location=this.value" style="background:#1a1a2e;color:#8b8ba7;border:1px solid #333;border-radius:8px;padding:4px 8px;font-size:13px;cursor:pointer">
+            <option value="">-- 选择日期 --</option>
+            <option value="report_20260622.html">2026-06-22 (今日)</option>
+            <option value="report_20260617.html">2026-06-17</option>
+            <option value="report_20260616.html">2026-06-16</option>
+            <option value="report_20260615.html">2026-06-15</option>
+            <option value="report_20260612.html">2026-06-12</option>
+            <option value="report_20260611.html">2026-06-11</option>
+            <option value="report_20260610.html">2026-06-10</option>
+            <option value="report_20260609.html">2026-06-09</option>
+            <option value="report_20260608.html">2026-06-08</option>
+            <option value="report_20260605.html">2026-06-05</option>
+            <option value="report_20260603.html">2026-06-03</option>
+            <option value="report_20260602.html">2026-06-02</option>
+            <option value="report_20260601.html">2026-06-01</option>
+            <option value="report_20260529.html">2026-05-29</option>
+            <option value="report_20260528.html">2026-05-28</option>
+            <option value="report_20260526.html">2026-05-26</option>
+            <option value="report_20260525.html">2026-05-25</option>
+            <option value="report_20260522.html">2026-05-22</option>
+            <option value="report_20260521.html">2026-05-21</option>
+            <option value="report_20260520.html">2026-05-20</option>
+            <option value="report_20260519.html">2026-05-19</option>
+            <option value="report_20260518.html">2026-05-18</option>
+            <option value="report_20260514.html">2026-05-14</option>
+            <option value="report_20260513.html">2026-05-13</option>
+            <option value="report_20260512.html">2026-05-12</option>
+            <option value="report_20260511.html">2026-05-11</option>
+            <option value="report_20260508.html">2026-05-08</option>
+            <option value="report_20260507.html">2026-05-07</option>
+            <option value="report_20260506.html">2026-05-06</option>
+            <option value="report_20260505.html">2026-05-05</option>
+            <option value="report_20260504.html">2026-05-04</option>
+            <option value="report_20260501.html">2026-05-01</option>
+            <option value="report_20260430.html">2026-04-30</option>
+            <option value="report_20260429.html">2026-04-29</option>
+            <option value="report_20260428.html">2026-04-28</option>
+            <option value="report_20260427.html">2026-04-27</option>
+            <option value="report_20260426.html">2026-04-26</option>
+        </select>
+    </div>
+    <span class="sep">|</span>
+    <span style="color:#00c853">6月22日（今日）</span>
+</div>
+
+<div class="container">
+<div class="header">
+    <h1>📊 基金PE估值与净值分析报告</h1>
+    <p class="update-time">报告生成时间：2026-06-22 09:51 <span class="badge">自动更新</span></p>
+    <p class="data-note">📌 数据截止：净值 A股  | 标普500  | PE </p>
+</div>
+
+<div class="plan-section" id="planSection"></div>
+<div class="pe-grid" id="peGrid"></div>
+<div class="fund-grid" id="fundGrid"></div>
+
+<div class="chart-section">
+    <div class="chart-header">
+        <h2>📈 三大指数PE估值历史分布</h2>
+        <button class="toggle-btn" id="toggleDist" onclick="toggleChartLabels('peDistChart', this)">🔢 显示数字</button>
+    </div>
+    <div class="chart-wrapper"><canvas id="peDistChart"></canvas></div>
+</div>
+
+<div class="chart-section">
+    <div class="chart-header">
+        <h2>📉 三大指数PE月度走势（近2年）</h2>
+        <button class="toggle-btn" id="togglePe" onclick="toggleChartLabels('allPeChart', this)">🔢 显示数字</button>
+    </div>
+    <div class="chart-wrapper chart-small"><canvas id="allPeChart"></canvas></div>
+</div>
+
+<div class="chart-section">
+    <div class="chart-header">
+        <h2>💹 四只基金近10日净值走势</h2>
+        <button class="toggle-btn" id="toggleNav" onclick="toggleChartLabels('navChart', this)">🔢 显示数字</button>
+    </div>
+    <div class="chart-wrapper chart-small"><canvas id="navChart"></canvas></div>
+</div>
+
+<div class="chart-section">
+    <div class="chart-header">
+        <h2>📊 近30日净值趋势（4只基金对比）</h2>
+        <button class="toggle-btn" id="toggleDailyReturn" onclick="toggleChartLabels('dailyReturnChart', this)">🔢 显示数字</button>
+    </div>
+    <div class="chart-wrapper"><canvas id="dailyReturnChart"></canvas></div>
+    <div class="trend-summary" id="trendSummary"></div>
+</div>
+
+<div class="chart-section">
+    <div class="chart-header">
+        <h2>📊 区间收益率对比</h2>
+        <button class="toggle-btn" id="toggleReturn" onclick="toggleChartLabels('returnChart', this)">🔢 显示数字</button>
+    </div>
+    <div class="chart-wrapper" style="height:420px;"><canvas id="returnChart"></canvas></div>
+</div>
+
+<div class="advice-section" id="adviceSection"></div>
+
+<div class="glossary-section">
+    <h2>📖 投资术语小课堂</h2>
+    <div class="glossary-toggle">
+        <button onclick="toggleGlossary()" id="toggleBtn">收起术语解释 ▲</button>
+    </div>
+    <div class="glossary-content" id="glossaryContent">
+    <div class="glossary-grid">
+        <div class="glossary-card card-pe">
+            <div class="term-header">
+                <div class="term-icon">💰</div>
+                <div><div class="term-title">PE <span class="term-english">Price-to-Earnings</span></div></div>
+            </div>
+            <div class="term-fullname">市盈率 = 股价 ÷ 每股收益</div>
+            <div class="term-analogy"><span class="analogy-label">🏪 举个例子：</span>一家奶茶店一年净赚10万，你花100万买下它。PE = 100÷10 = 10倍，意思是按这个赚钱速度，<strong>10年能回本</strong>。PE越低回本越快，但也要小心"便宜有便宜的道理"——可能这店生意在走下坡路。</div>
+            <div class="term-formula"><span class="formula-label">📐 计算方式：</span>沪深300 PE = 23.86 → 买入沪深300这些公司，理论上23.86年回本</div>
+            <div class="term-meaning"><span class="meaning-label">🔑 对你意味着：</span>PE百分位告诉我们"现在买贵不贵"。百分位越低越便宜，越高越贵。你的定投策略就是根据这个来决定买多买少的。</div>
+            <div class="term-tip"><span class="tip-icon">💡</span>PE适合看盈利稳定的公司/指数，周期股（如钢铁、煤炭）看PE不准</div>
+        </div>
+        <div class="glossary-card card-pb">
+            <div class="term-header">
+                <div class="term-icon">🏠</div>
+                <div><div class="term-title">PB <span class="term-english">Price-to-Book</span></div></div>
+            </div>
+            <div class="term-fullname">市净率 = 股价 ÷ 每股净资产</div>
+            <div class="term-analogy"><span class="analogy-label">🏪 举个例子：</span>一家奶茶店，设备+装修+存款这些"硬家底"值50万（净资产），你花100万买下它。PB = 100÷50 = 2倍，你花了<strong>2倍的价钱买它的家底</strong>。PB &lt; 1就是"破净"——打折买，比家底还便宜。</div>
+            <div class="term-formula"><span class="formula-label">📐 计算方式：</span>沪深300 PB = 2.39 → 买入价是它净资产的2.39倍</div>
+            <div class="term-meaning"><span class="meaning-label">🔑 对你意味着：</span>PB看的是"家底厚不厚"。银行、地产等重资产行业看PB更有意义；创业板公司轻资产（软件、互联网），PB参考意义不大，所以报告里创业板没标PB。</div>
+            <div class="term-tip"><span class="tip-icon">💡</span>PB &lt; 1不一定就是捡便宜，可能市场觉得这些资产要贬值</div>
+        </div>
+        <div class="glossary-card card-percentile">
+            <div class="term-header">
+                <div class="term-icon">📊</div>
+                <div><div class="term-title">百分位 <span class="term-english">Percentile</span></div></div>
+            </div>
+            <div class="term-fullname">当前值在历史数据中超过了百分之多少的记录</div>
+            <div class="term-analogy"><span class="analogy-label">🏪 举个例子：</span>西红柿过去5年的价格：2块、3块、3块5、4块、5块。今天卖3块5，百分位就是60%——意思是过去有60%的时间比今天便宜。百分位越高说明今天越贵。</div>
+            <div class="term-formula"><span class="formula-label">📐 在你的策略里：</span>0-30%→1.5倍加仓 | 30-50%→正常定投 | 50-70%→减量0.7倍 | 70%+→暂停</div>
+            <div class="term-meaning"><span class="meaning-label">🔑 对你意味着：</span>百分位是定投策略的核心指标。它让你不凭感觉买卖，而是用数据判断"现在贵不贵"。就像买菜看历史价格一样，贵了少买，便宜多买。</div>
+            <div class="term-tip"><span class="tip-icon">💡</span>百分位是基于历史算的，历史不等于未来，但大概率管用</div>
+        </div>
+        <div class="glossary-card card-nav">
+            <div class="term-header">
+                <div class="term-icon">💵</div>
+                <div><div class="term-title">净值 <span class="term-english">NAV</span></div></div>
+            </div>
+            <div class="term-fullname">单位净值 = 基金总资产 ÷ 总份额</div>
+            <div class="term-analogy"><span class="analogy-label">🏪 举个例子：</span>你和3个朋友合伙开奶茶店，总共投了10万，分成10份，每份1万。这就是净值——每"一份"基金值多少钱。今天1.9191元，就是1份沪深300联接基金值1块9毛2。</div>
+            <div class="term-formula"><span class="formula-label">📐 看净值的方法：</span>净值涨了说明基金赚钱了，跌了说明亏了。但不同基金净值不能直接比——净值1.5的基金不一定比净值3.7的便宜</div>
+            <div class="term-meaning"><span class="meaning-label">🔑 对你意味着：</span>10日净值走势图就是这只基金最近两周的"每日价格日记"，帮你感受近期市场的涨跌节奏。长期看PE百分位做决策，短期看净值感受节奏。</div>
+            <div class="term-tip"><span class="tip-icon">💡</span>买基金不用纠结净值高低，关键是看估值（PE/PB）贵不贵</div>
+        </div>
+        <div class="glossary-card card-ttm">
+            <div class="term-header">
+                <div class="term-icon">📅</div>
+                <div><div class="term-title">TTM <span class="term-english">Trailing Twelve Months</span></div></div>
+            </div>
+            <div class="term-fullname">滚动12个月 = 最近4个季度的数据加总</div>
+            <div class="term-analogy"><span class="analogy-label">🏪 举个例子：</span>奶茶店今年1-3月赚了3万，去年4-12月赚了7万，TTM利润就是10万（3+7）。不是看"去年全年"，而是看<strong>"从现在往前推12个月"</strong>，更贴近真实情况。</div>
+            <div class="term-formula"><span class="formula-label">📐 为什么用TTM：</span>年报数据滞后（要到次年4月才出），TTM实时滚动更新，反映最新的盈利能力</div>
+            <div class="term-meaning"><span class="meaning-label">🔑 对你意味着：</span>报告里写的"PE(TTM)"就是用最近12个月利润算的PE，比用去年年报算的更准。不用自己算，知道它比普通PE更及时就行。</div>
+            <div class="term-tip"><span class="tip-icon">💡</span>有些地方写"静态PE"用的是去年数据，"动态PE"用的是预测数据，TTM是介于两者之间最靠谱的</div>
+        </div>
+        <div class="glossary-card card-equal">
+            <div class="term-header">
+                <div class="term-icon">⚖️</div>
+                <div><div class="term-title">等权 <span class="term-english">Equal-Weighted</span></div></div>
+            </div>
+            <div class="term-fullname">每个成分股权重相同，不分大小</div>
+            <div class="term-analogy"><span class="analogy-label">🏪 举个例子：</span>班里10个同学考试，"等权平均"就是每个人成绩占比一样（都是1/10）。"市值加权"就像班长成绩占50%、其他9人分剩下的50%——大公司说了算。等权更能反映<strong>整体水平</strong>，不被几个巨头带偏。</div>
+            <div class="term-formula"><span class="formula-label">📐 在报告里：</span>PE数据标注"等权"，意思是300只股票每只权重相同，不是贵州茅台独大</div>
+            <div class="term-meaning"><span class="meaning-label">🔑 对你意味着：</span>等权PE更能代表"大部分股票贵不贵"，加权PE容易被少数大市值股票影响。两种算法结果可能差不少，知道我们用的是等权就行。</div>
+            <div class="term-tip"><span class="tip-icon">💡</span>etf.run上的PE可能是市值加权的，和我们报告里的等权PE数值会有差异，这是正常的</div>
+        </div>
+        <div class="glossary-card card-daily">
+            <div class="term-header">
+                <div class="term-icon">📈</div>
+                <div><div class="term-title">日涨跌 <span class="term-english">Daily Return</span></div></div>
+            </div>
+            <div class="term-fullname">当天净值相比前一天的涨跌百分比</div>
+            <div class="term-analogy"><span class="analogy-label">🏪 举个例子：</span>昨天奶茶店收盘价100万，今天101万，日涨跌 = (101-100)÷100 = +1%。在中国股市，<span style="color:#cf1322;font-weight:700">红色=涨</span>、<span style="color:#3f8600;font-weight:700">绿色=跌</span>，跟美国相反。所以报告里红色数字是赚钱了！</div>
+            <div class="term-formula"><span class="formula-label">📐 计算：</span>日涨跌 = (今日净值 - 昨日净值) ÷ 昨日净值 × 100%</div>
+            <div class="term-meaning"><span class="meaning-label">🔑 对你意味着：</span>单日涨跌别太在意，长期定投赚的是趋势的钱。创业板一天涨跌2-3%很正常，沪深300一天0.5%就算大波动了——因为创业板波动天生就大。</div>
+            <div class="term-tip"><span class="tip-icon">💡</span>基金净值是交易日结束后才更新的，周末和节假日看不到变化</div>
+        </div>
+        <div class="glossary-card card-daily" style="background: linear-gradient(135deg, #f0f5ff, #e6e6ff);">
+            <div class="term-header">
+                <div class="term-icon" style="background: #f0f5ff;">🌐</div>
+                <div><div class="term-title">QDII <span class="term-english">Qualified Domestic Institutional Investor</span></div></div>
+            </div>
+            <div class="term-fullname">合格境内机构投资者 — 用人民币买海外资产</div>
+            <div class="term-analogy"><span class="analogy-label">🏪 举个例子：</span>你想在美国开奶茶店但没美国签证，于是找个有资质的中介，你出人民币，他帮你换成美元去开店。QDII基金就是这个中介——你用人民币买，基金公司帮你换美元投美股。<strong>不用自己开美股账户、不用换汇</strong>。</div>
+            <div class="term-formula"><span class="formula-label">📐 特别注意：</span>QDII基金确认份额慢（T+2）、赎回到账慢（约7天）、受外汇额度限制（可能限购），但正好适合长期定投</div>
+            <div class="term-meaning"><span class="meaning-label">🔑 对你意味着：</span>标普500联接基金就是QDII，每天限购100元，赎回要一周左右。跟你"买了就不动"的长期持有策略完全匹配，不用纠结流动性。</div>
+            <div class="term-tip"><span class="tip-icon">💡</span>QDII基金还有汇率风险——美元涨了你的基金额外赚钱，美元跌了额外亏</div>
+        </div>
+    </div>
+    </div>
+</div>
+
+<div class="disclaimer">
+⚠️ 免责声明：本报告仅供参考，不构成任何投资建议。投资有风险，入市需谨慎。<br>
+数据来源：akshare（东方财富/乐咕乐股）、NeoData金融数据。净值数据为实际交易日数据，A股T日更新，QDII基金（标普500）滞后1个交易日。PE数据为等权计算。
+</div>
+</div>
+
+<script>
+
+// ========== 数据 ==========
+const PE_GAUGE = {"000300": {"name": "沪深300", "current": 23.86, "min": 13.39, "max": 65.78, "p20": 20.96, "median": 24.16, "p80": 29.94, "percentile": 47.89}, "399006": {"name": "创业板指", "current": 48.33, "min": 26.32, "max": 133.76, "p20": 36.05, "median": 47.76, "p80": 64.51, "percentile": 52.36}, "000905": {"name": "中证500", "current": 39.26, "min": 18.9, "max": 100.48, "p20": 26.37, "median": 34.15, "p80": 52.29, "percentile": 61.81}};
+const FUND_DATA = {"110020": {"name": "易方达沪深300ETF联接A", "index": "沪深300", "index_code": "000300", "risk": "中风险", "established": "2009-08-26", "manager": "余海燕,庞亚平", "scale": "129.57亿", "nav_data": [], "return_data": {"近1周": 0.92, "近1月": 6.43, "近3月": 1.57, "近6月": 2.87, "近1年": 27.9, "近2年": 40.49, "近3年": 27.91, "近5年": 5.06, "近10年": 86.86, "今年来": 3.22, "成立来": 91.91}}, "110026": {"name": "易方达创业板ETF联接A", "index": "创业板指", "index_code": "399006", "risk": "中高风险", "established": "2011-09-20", "manager": "成曦,刘树荣", "scale": "59.14亿", "nav_data": [], "return_data": {"近1周": 0.03, "近1月": 12.57, "近3月": 9.5, "近6月": 15.66, "近1年": 86.1, "近2年": 106.23, "近3年": 59.86, "近5年": 24.42, "近10年": 74.61, "今年来": 14.3, "成立来": 273.32}}, "160119": {"name": "南方中证500ETF联接(LOF)A", "index": "中证500", "index_code": "000905", "risk": "中风险", "established": "2009-09-25", "manager": "罗文杰", "scale": "7.78亿", "nav_data": [], "return_data": {"近1周": 0.44, "近1月": 8.29, "近3月": -3.81, "近6月": 13.36, "近1年": 46.96, "近2年": 57.9, "近3年": 36.84, "近5年": 36.76, "近10年": 58.94, "今年来": 10.06, "成立来": 151.99}}, "050025": {"name": "博时标普500ETF联接A", "index": "标普500", "index_code": "SP500", "risk": "中风险(QDII)", "established": "2013-01-15", "manager": "万琼", "scale": "59.27亿", "is_qdii": true, "nav_data": [], "return_data": {"近1周": 1.02, "近1月": 7.15, "近3月": 1.15, "近6月": 2.48, "近1年": 25.01, "近2年": 33.76, "近3年": 65.94, "近5年": 72.09, "近10年": 239.01, "今年来": 1.59, "成立来": 452.03}}};
+const PE_DATA = {"000300": {"name": "沪深300", "current_pe": 23.86, "pe_min": 13.39, "pe_max": 65.78, "pe_mean": 27.02, "pe_median": 24.16, "pe_percentile": 47.89, "pe_p20": 20.96, "pe_p80": 29.94, "current_pb": 2.39, "pb_min": 1.44, "pb_max": 7.68, "pb_mean": 2.83, "pb_median": 2.55, "pb_p20": 2.14, "pb_p80": 3.29, "pb_percentile": 39.17, "monthly_pe": []}, "399006": {"name": "创业板指", "current_pe": 48.33, "pe_min": 26.32, "pe_max": 133.76, "pe_mean": 51.16, "pe_median": 47.76, "pe_percentile": 52.36, "pe_p20": 36.05, "pe_p80": 64.51, "current_pb": null, "pb_min": null, "pb_max": null, "pb_mean": null, "pb_median": null, "pb_p20": null, "pb_p80": null, "pb_percentile": null, "monthly_pe": []}, "000905": {"name": "中证500", "current_pe": 39.26, "pe_min": 18.9, "pe_max": 100.48, "pe_mean": 39.42, "pe_median": 34.15, "pe_percentile": 61.81, "pe_p20": 26.37, "pe_p80": 52.29, "current_pb": 2.9, "pb_min": 1.43, "pb_max": 6.58, "pb_mean": 2.84, "pb_median": 2.53, "pb_p20": 2.09, "pb_p80": 3.56, "pb_percentile": 61.75, "monthly_pe": []}};
+const CYB_PE = [{"date": "2009-10", "pe": 111.03}, {"date": "2009-11", "pe": 114.62}, {"date": "2009-12", "pe": 105.38}, {"date": "2010-01", "pe": 88.39}, {"date": "2010-02", "pe": 93.32}, {"date": "2010-03", "pe": 79.49}, {"date": "2010-04", "pe": 67.39}, {"date": "2010-05", "pe": 64.48}];
+
+// ========== 图表实例存储 & 数字标签控制 ==========
+const chartInstances = {};
+const chartLabelsState = {};
+
+function toggleChartLabels(chartId, btn) {
+    const chart = chartInstances[chartId];
+    if (!chart) return;
+    chartLabelsState[chartId] = !chartLabelsState[chartId];
+    const show = chartLabelsState[chartId];
+    if (show) {
+        btn.textContent = '🔢 隐藏数字';
+        btn.classList.add('active');
+    } else {
+        btn.textContent = '🔢 显示数字';
+        btn.classList.remove('active');
+    }
+    chart.options.plugins.datalabels.display = show;
+    chart.update();
+}
+
+// ========== 颜色工具 ==========
+function getPeColor(pct) {
+    if (pct <= 30) return '#52c41a';
+    if (pct <= 50) return '#73d13d';
+    if (pct <= 70) return '#faad14';
+    return '#ff4d4f';
+}
+function getPeZone(pct) {
+    if (pct <= 20) return '极度低估';
+    if (pct <= 40) return '低估';
+    if (pct <= 60) return '适中';
+    if (pct <= 80) return '偏高';
+    return '高估';
+}
+function getReturnColor(val) {
+    return val >= 0 ? '#cf1322' : '#3f8600';
+}
+
+// ========== 渲染PE概览卡片 ==========
+function renderPeCards() {
+    const grid = document.getElementById('peGrid');
+    grid.innerHTML = '';
+    const indexToFund = {"000300": "110020", "399006": "110026", "000905": "160119"};
+
+    Object.entries(PE_GAUGE).forEach(([code, d]) => {
+        const fundCode = indexToFund[code];
+        const fund = FUND_DATA[fundCode];
+        const color = getPeColor(d.percentile);
+        const zone = getPeZone(d.percentile);
+        const markerLeft = Math.min(Math.max(d.percentile, 2), 98);
+
+        const card = document.createElement('div');
+        card.className = 'pe-card';
+        card.innerHTML = `
+            <div class="card-header">
+                <span class="index-name">${d.name}</span>
+                <span class="risk-tag">${fund.risk}</span>
+            </div>
+            <div class="fund-name">${fund.name}</div>
+            <div class="pe-big" style="color:${color}">${d.current.toFixed(2)}</div>
+            <div class="pe-unit">PE(TTM) 市盈率</div>
+            <div class="temp-bar">
+                <div class="temp-marker" style="left:${markerLeft}%"></div>
+            </div>
+            <div class="temp-labels">
+                <span>${d.min.toFixed(1)}</span>
+                <span>${d.median.toFixed(1)}</span>
+                <span>${d.max.toFixed(1)}</span>
+            </div>
+            <div class="percentile-text" style="color:${color}">
+                历史百分位 ${d.percentile.toFixed(1)}% · ${zone}
+            </div>
+            <div class="pe-range">
+                <div class="pe-range-item">
+                    <div class="label">20%分位</div>
+                    <div class="value" style="color:#52c41a">${d.p20.toFixed(2)}</div>
+                </div>
+                <div class="pe-range-item">
+                    <div class="label">中位数</div>
+                    <div class="value">${d.median.toFixed(2)}</div>
+                </div>
+                <div class="pe-range-item">
+                    <div class="label">80%分位</div>
+                    <div class="value" style="color:#ff4d4f">${d.p80.toFixed(2)}</div>
+                </div>
+            </div>`;
+        grid.appendChild(card);
+    });
+}
+
+// ========== 渲染基金净值卡片 ==========
+function renderFundCards() {
+    const grid = document.getElementById('fundGrid');
+    grid.innerHTML = '';
+
+    Object.entries(FUND_DATA).forEach(([code, fund]) => {
+        const latest = fund.nav_data[0];
+        const ret = fund.return_data;
+
+        const returnItems = [
+            {label: '近1月', value: ret['近1月']},
+            {label: '近3月', value: ret['近3月']},
+            {label: '近1年', value: ret['近1年']},
+            {label: '今年来', value: ret['今年来']},
+        ];
+
+        let returnHtml = returnItems.map(r => `
+            <div class="return-item" style="background:${r.value >= 0 ? '#fff1f0' : '#f6ffed'}">
+                <div class="label">${r.label}</div>
+                <div class="value" style="color:${getReturnColor(r.value)}">${r.value >= 0 ? '+' : ''}${r.value.toFixed(2)}%</div>
+            </div>`).join('');
+
+        const card = document.createElement('div');
+        card.className = 'fund-card';
+        card.innerHTML = `
+            <h3>${fund.name}</h3>
+            <div class="sub">跟踪${fund.index} | 基金经理：${fund.manager} | 规模：${fund.scale}</div>
+            <div class="nav-row">
+                <div>
+                    <div class="nav-value">${latest.nav.toFixed(4)}</div>
+                    <div class="nav-date">单位净值 (${latest.date})</div>
+                </div>
+                <div style="text-align:right">
+                    <div style="font-size:20px;font-weight:700;color:${getReturnColor(latest.daily_return)}">${latest.daily_return >= 0 ? '+' : ''}${latest.daily_return.toFixed(2)}%</div>
+                    <div style="font-size:12px;color:#999">日涨跌</div>
+                </div>
+            </div>
+            <div class="return-grid">${returnHtml}</div>`;
+        grid.appendChild(card);
+    });
+}
+
+// ========== PE分布箱线图 ==========
+function renderPeDistChart() {
+    const ctx = document.getElementById('peDistChart').getContext('2d');
+    const labels = ['沪深300', '创业板指', '中证500'];
+    const codes = ['000300', '399006', '000905'];
+
+    const barData = {
+        labels: labels,
+        datasets: [
+            { label: '历史最低PE', data: codes.map(c => PE_DATA[c].pe_min), backgroundColor: '#1890ff20', borderColor: '#1890ff', borderWidth: 1 },
+            { label: '20%分位', data: codes.map(c => PE_DATA[c].pe_p20), backgroundColor: '#13c2c230', borderColor: '#13c2c2', borderWidth: 1 },
+            { label: '中位数', data: codes.map(c => PE_DATA[c].pe_median), backgroundColor: '#faad1430', borderColor: '#faad14', borderWidth: 1 },
+            { label: '当前PE', data: codes.map(c => PE_DATA[c].current_pe), backgroundColor: '#722ed130', borderColor: '#722ed1', borderWidth: 2 },
+            { label: '80%分位', data: codes.map(c => PE_DATA[c].pe_p80), backgroundColor: '#fa8c1630', borderColor: '#fa8c16', borderWidth: 1 },
+            { label: '历史最高PE', data: codes.map(c => PE_DATA[c].pe_max), backgroundColor: '#cf132215', borderColor: '#cf132280', borderWidth: 1, borderDash: [4,4] },
+        ]
+    };
+
+    const chart = new Chart(ctx, {
+        type: 'bar',
+        data: barData,
+        plugins: [ChartDataLabels],
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top', labels: { font: { size: 12 } } },
+                tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)}` } },
+                datalabels: {
+                    anchor: 'end', align: 'top',
+                    formatter: (value) => value.toFixed(1),
+                    font: { size: 10, weight: 'bold' },
+                    color: (ctx) => ctx.dataset.borderColor,
+                    display: false,
+                }
+            },
+            scales: {
+                y: { title: { display: true, text: 'PE(TTM)' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+    chartInstances['peDistChart'] = chart;
+}
+
+// ========== 三大指数PE月度走势 ==========
+function renderAllPeChart() {
+    const ctx = document.getElementById('allPeChart').getContext('2d');
+    const codes = ['000300', '399006', '000905'];
+    const names = ['沪深300', '创业板指', '中证500'];
+    const colors = ['#e74c3c', '#3498db', '#2ecc71'];
+    const bgColors = ['rgba(231,76,60,0.08)', 'rgba(52,152,219,0.08)', 'rgba(46,204,113,0.08)'];
+
+    const allDates = PE_DATA['399006'].monthly_pe.slice(-24).map(d => d.date);
+
+    const datasets = codes.map((code, i) => ({
+        label: names[i] + ' PE',
+        data: PE_DATA[code].monthly_pe.slice(-24).map(d => d.pe),
+        borderColor: colors[i], backgroundColor: bgColors[i],
+        borderWidth: 2.5, fill: false, tension: 0.3, pointRadius: 3, pointHoverRadius: 6,
+    }));
+
+    const chart = new Chart(ctx, {
+        type: 'line',
+        data: { labels: allDates, datasets },
+        plugins: [ChartDataLabels],
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'top' },
+                datalabels: {
+                    display: false, anchor: 'end', align: 'right',
+                    formatter: (value) => value.toFixed(1),
+                    font: { size: 11, weight: 'bold' },
+                    color: (ctx) => ctx.dataset.borderColor,
+                    backgroundColor: 'white', borderRadius: 3, padding: 2,
+                }
+            },
+            scales: {
+                y: { title: { display: true, text: 'PE(TTM) 等权' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+                x: { grid: { display: false }, ticks: { maxRotation: 45 } }
+            }
+        }
+    });
+    chartInstances['allPeChart'] = chart;
+}
+
+// ========== 近期净值走势（近10日） ==========
+function renderNavChart() {
+    const ctx = document.getElementById('navChart').getContext('2d');
+    const funds = Object.entries(FUND_DATA);
+    const colors = ['#e74c3c', '#3498db', '#2ecc71', '#722ed1'];
+    const dates = funds[0][1].nav_data.slice(0, 10).map(d => d.date).reverse();
+
+    const yAxes = {
+        '110020': { id: 'y1', position: 'left' },
+        '110026': { id: 'y2', position: 'right' },
+        '160119': { id: 'y3', position: 'right' },
+        '050025': { id: 'y4', position: 'right' },
+    };
+
+    const datasets = funds.map(([code, fund], i) => ({
+        label: fund.name,
+        data: fund.nav_data.slice(0, 10).map(d => d.nav).reverse(),
+        borderColor: colors[i], backgroundColor: colors[i] + '15',
+        borderWidth: 2.5, fill: false, tension: 0.3, pointRadius: 4, pointHoverRadius: 7,
+        yAxisID: yAxes[code].id,
+    }));
+
+    const chart = new Chart(ctx, {
+        type: 'line',
+        data: { labels: dates, datasets },
+        plugins: [ChartDataLabels],
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'top' },
+                datalabels: {
+                    display: false, anchor: 'end', align: 'top',
+                    formatter: (value) => value.toFixed(3),
+                    font: { size: 9, weight: 'bold' },
+                    color: (ctx) => ctx.dataset.borderColor,
+                }
+            },
+            scales: {
+                x: { grid: { display: false }, ticks: { maxRotation: 45 } },
+                y1: { type: 'linear', position: 'left', title: { display: true, text: '沪深300净值', color: colors[0] }, ticks: { color: colors[0] }, grid: { color: 'rgba(0,0,0,0.04)' } },
+                y2: { type: 'linear', position: 'right', title: { display: true, text: '创业板净值', color: colors[1] }, ticks: { color: colors[1] }, grid: { drawOnChartArea: false } },
+                y3: { type: 'linear', position: 'right', title: { display: true, text: '中证500净值', color: colors[2] }, ticks: { color: colors[2] }, grid: { drawOnChartArea: false } },
+                y4: { type: 'linear', position: 'right', title: { display: true, text: '标普500净值', color: colors[3] }, ticks: { color: colors[3] }, grid: { drawOnChartArea: false } },
+            }
+        }
+    });
+    chartInstances['navChart'] = chart;
+}
+
+// ========== 区间收益对比 ==========
+function renderReturnChart() {
+    const ctx = document.getElementById('returnChart').getContext('2d');
+    const periods = ['近1周', '近1月', '近3月', '近6月', '近1年', '近2年', '近3年', '今年来', '成立来'];
+    const colors = ['#e74c3c', '#3498db', '#2ecc71', '#722ed1'];
+    const bgColors = ['rgba(231,76,60,0.15)', 'rgba(52,152,219,0.15)', 'rgba(46,204,113,0.15)', 'rgba(114,46,209,0.15)'];
+
+    const datasets = Object.entries(FUND_DATA).map(([code, fund], i) => ({
+        label: fund.name,
+        data: periods.map(p => fund.return_data[p] || 0),
+        backgroundColor: bgColors[i], borderColor: colors[i], borderWidth: 2,
+        barPercentage: 0.75, categoryPercentage: 0.8,
+    }));
+
+    const chart = new Chart(ctx, {
+        type: 'bar',
+        data: { labels: periods, datasets },
+        plugins: [ChartDataLabels],
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top' },
+                tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y >= 0 ? '+' : ''}${ctx.parsed.y.toFixed(2)}%` } },
+                datalabels: {
+                    display: false,
+                    anchor: (ctx) => ctx.dataset.data[ctx.dataIndex] >= 0 ? 'end' : 'start',
+                    align: (ctx) => ctx.dataset.data[ctx.dataIndex] >= 0 ? 'top' : 'bottom',
+                    formatter: (value) => (value >= 0 ? '+' : '') + value.toFixed(1) + '%',
+                    font: { size: 8, weight: 'bold' },
+                    color: (ctx) => ctx.dataset.borderColor, padding: 2,
+                }
+            },
+            scales: {
+                y: { title: { display: true, text: '收益率(%)' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+    chartInstances['returnChart'] = chart;
+}
+
+// ========== 近30日净值折线图（全部历史数据）==========
+function renderDailyReturnChart() {
+    const ctx = document.getElementById('dailyReturnChart').getContext('2d');
+    const fundColors = {
+        '110020': { line: '#e74c3c', bg: 'rgba(231,76,60,0.06)' },
+        '110026': { line: '#3498db', bg: 'rgba(52,152,219,0.06)' },
+        '160119': { line: '#2ecc71', bg: 'rgba(46,204,113,0.06)' },
+        '050025': { line: '#722ed1', bg: 'rgba(114,46,209,0.06)' },
+    };
+    const fundNames = { '110020': '沪深300', '110026': '创业板', '160119': '中证500', '050025': '标普500' };
+
+    // 收集所有基金的全部净值历史日期（最多取30天）
+    const allDatesSet = new Set();
+    Object.values(FUND_DATA).forEach(f => f.nav_data.forEach(d => allDatesSet.add(d.date)));
+    const sortedDates = Array.from(allDatesSet).sort().slice(-30);
+
+    const datasets = Object.keys(FUND_DATA).map(code => {
+        const fund = FUND_DATA[code];
+        const color = fundColors[code];
+        const dateNavMap = {};
+        fund.nav_data.forEach(d => { dateNavMap[d.date] = d.nav; });
+        return {
+            label: fundNames[code],
+            data: sortedDates.map(date => dateNavMap[date] || null),
+            borderColor: color.line, backgroundColor: color.bg,
+            borderWidth: 2, fill: true, tension: 0.3, pointRadius: 3, pointHoverRadius: 6,
+        };
+    });
+
+    const chart = new Chart(ctx, {
+        type: 'line',
+        data: { labels: sortedDates, datasets },
+        plugins: [ChartDataLabels],
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'top' },
+                datalabels: {
+                    display: false, anchor: 'end', align: 'top',
+                    formatter: (value) => value ? value.toFixed(2) : '',
+                    font: { size: 9, weight: 'bold' },
+                    color: (ctx) => ctx.dataset.borderColor,
+                }
+            },
+            scales: {
+                y: { title: { display: true, text: '净值' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+                x: { grid: { display: false }, ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 15 } }
+            }
+        }
+    });
+    chartInstances['dailyReturnChart'] = chart;
+    renderTrendSummary(sortedDates);
+}
+
+// ========== 趋势汇总卡片 ==========
+function renderTrendSummary(sortedDates) {
+    const container = document.getElementById('trendSummary');
+    const fundColors = {
+        '110020': { bg: 'linear-gradient(135deg, #fff1f0, #ffe7e6)', text: '#cf1322' },
+        '110026': { bg: 'linear-gradient(135deg, #e6f7ff, #bae7ff)', text: '#1890ff' },
+        '160119': { bg: 'linear-gradient(135deg, #f6ffed, #d9f7be)', text: '#52c41a' },
+        '050025': { bg: 'linear-gradient(135deg, #f9f0ff, #efdbff)', text: '#722ed1' },
+    };
+    const fundNames = { '110020': '沪深300', '110026': '创业板', '160119': '中证500', '050025': '标普500' };
+
+    const cards = Object.keys(FUND_DATA).map(code => {
+        const fund = FUND_DATA[code];
+        const color = fundColors[code];
+        const dateNavMap = {};
+        fund.nav_data.forEach(d => { dateNavMap[d.date] = d.nav; });
+        // 用该基金自己的净值首尾计算累计涨跌（避免QDII日期不同步问题）
+        const fundDates = sortedDates.filter(d => dateNavMap[d] !== undefined);
+        const first = fundDates.length > 0 ? dateNavMap[fundDates[0]] : null;
+        const last = fundDates.length > 0 ? dateNavMap[fundDates[fundDates.length - 1]] : null;
+        const cumulative = first && last ? ((last - first) / first * 100) : null;
+        const latestDay = fund.nav_data[0];
+        const dayReturn = latestDay ? latestDay.daily_return : 0;
+
+        return `<div class="trend-card" style="background:${color.bg}">
+            <div class="trend-name">${fundNames[code]}</div>
+            <div class="trend-return" style="color:${color.text}">${cumulative !== null ? (cumulative >= 0 ? '+' : '') + cumulative.toFixed(2) + '%' : '--'}</div>
+            <div class="trend-detail">近${sortedDates.length}日累计涨跌</div>
+            <div style="margin-top:8px;font-size:13px;font-weight:600;color:${dayReturn >= 0 ? '#cf1322' : '#3f8600'}">${dayReturn >= 0 ? '+' : ''}${dayReturn.toFixed(2)}%</div>
+            <div class="trend-detail">最新日涨跌</div>
+        </div>`;
+    });
+    container.innerHTML = cards.join('');
+}
+
+// ========== 投资建议 ==========
+function renderAdvice() {
+    const section = document.getElementById('adviceSection');
+    let html = '<h2>💡 投资分析与建议</h2>';
+
+    const advices = [
+        {
+            fund: FUND_DATA['110020'], pe: PE_DATA['000300'],
+            bgClass: 'green-bg', icon: '🟢', summary: '估值适中偏低，安心持有',
+            getAnalysis: () => `当前沪深300 PE为${PE_DATA["000300"].current_pe}，处于历史${PE_DATA["000300"].pe_percentile}%分位，略低于中位数${PE_DATA["000300"].pe_median}，估值处于<strong>中等偏低</strong>水平。PB为${PE_DATA["000300"].current_pb}，处于${PE_DATA["000300"].pb_percentile}%分位，同样偏低。`,
+            suggestion: '沪深300代表A股核心资产，长期收益稳健。建议<strong>继续持有</strong>，等待估值修复至中位数以上。若PE降至20以下可考虑加仓，超过30（80%分位附近）可开始分批卖出。',
+        },
+        {
+            fund: FUND_DATA['110026'], pe: PE_DATA['399006'],
+            bgClass: 'yellow-bg', icon: '🟡', summary: '估值中等偏上，持有观望',
+            getAnalysis: () => `当前创业板PE为${PE_DATA["399006"].current_pe}，处于历史${PE_DATA["399006"].pe_percentile}%分位，略高于中位数${PE_DATA["399006"].pe_median}。2024年8月创业板PE曾跌至26.34（历史最低附近），之后经历大幅反弹。近1年收益率高达${FUND_DATA["110026"].return_data["近1年"]}%，反映了这轮强劲反弹。`,
+            suggestion: '创业板波动大，短期波动可能加大。建议<strong>持有为主，暂不加仓</strong>。若PE回落至37以下（25%分位）可加仓，超过60（75%分位）可开始分批减仓。创业板波动大，务必控制仓位。',
+        },
+        {
+            fund: FUND_DATA['160119'], pe: PE_DATA['000905'],
+            bgClass: 'yellow-bg', icon: '🟡', summary: '估值中等偏上，持有为主',
+            getAnalysis: () => `当前中证500 PE为${PE_DATA["000905"].current_pe}，处于历史${PE_DATA["000905"].pe_percentile}%分位，高于中位数${PE_DATA["000905"].pe_median}，估值处于<strong>中等偏高</strong>水平。PB为${PE_DATA["000905"].current_pb}，同样处于${PE_DATA["000905"].pb_percentile}%分位。`,
+            getSuggestion: () => `中证500代表中盘股，弹性较大。当前估值略高于中位数，但离高估区（80%分位${PE_DATA["000905"].pe_p80}）还有距离。建议<strong>持有为主</strong>，可等估值回落至34以下再考虑加仓。`,
+        },
+        {
+            fund: FUND_DATA['050025'], pe: null,
+            bgClass: 'green-bg', icon: '🟢', summary: '美股核心资产，长期定投',
+            getAnalysis: () => `博时标普500ETF联接A(050025)跟踪标普500指数，覆盖美国最大的500家上市公司。近1年收益率${FUND_DATA["050025"].return_data["近1年"]}%，近3年${FUND_DATA["050025"].return_data["近3年"]}%，长期收益稳健。`,
+            suggestion: '标普500是您投资组合中的<strong>"防弹衣"</strong>。建议<strong>固定金额250元/月定投，暂不动态调仓</strong>。注意：①每日限购100元，需分3天买入；②QDII基金赎回约7天到账，不适合短期操作；③存在汇率风险。',
+        },
+    ];
+
+    advices.forEach(a => {
+        const analysisText = a.getAnalysis ? a.getAnalysis() : (a.analysis || '');
+        const suggestionText = a.getSuggestion ? a.getSuggestion() : (a.suggestion || '');
+        html += `<div class="advice-item ${a.bgClass}">
+            <h4>${a.icon} ${a.fund.name}（跟踪${a.fund.index}）— ${a.summary}</h4>
+            <p>${analysisText}</p>
+            <p class="highlight" style="margin-top:8px">📋 操作建议：${suggestionText}</p>
+        </div>`;
+    });
+
+    html += `<div class="advice-item blue-bg">
+        <h4>📋 综合投资建议（基于1年以上持有周期）</h4>
+        <p><strong>1. 整体仓位评估：</strong>您持有4只基金，覆盖A股大盘蓝筹（沪深300）、成长风格（创业板）、中盘（中证500）和美股大盘（标普500），风格互补性好，A/美股分散风险。当前A股3只基金整体估值处于历史中等水平。</p>
+        <p><strong>2. 定投方案（每月9日，月投1200元）：</strong></p>
+        <p>&nbsp;&nbsp;• 沪深300：500元/月（动态调仓）</p>
+        <p>&nbsp;&nbsp;• 创业板：200元/月（动态调仓）</p>
+        <p>&nbsp;&nbsp;• 中证500：250元/月（动态调仓）</p>
+        <p>&nbsp;&nbsp;• 标普500：250元/月（固定金额，限购100元/天需分批）</p>
+        <p><strong>3. 持有策略：</strong>您计划持有1年以上才分批卖出，这是明智的长期投资思路。指数基金长期持有胜率较高。</p>
+        <p><strong>4. 分批卖出参考标准：</strong></p>
+        <p>&nbsp;&nbsp;• 沪深300：PE超过29.9（80%分位）可开始分批卖出</p>
+        <p>&nbsp;&nbsp;• 创业板指：PE超过64.5（75%分位）可开始分批卖出</p>
+        <p>&nbsp;&nbsp;• 中证500：PE超过52.3（80%分位）可开始分批卖出</p>
+        <p>&nbsp;&nbsp;• 标普500：暂不设卖出标准，长期持有为主</p>
+        <p>&nbsp;&nbsp;• 建议分3次卖出，每次卖出1/3仓位，间隔至少1个月</p>
+        <p><strong>5. 标普500特别提示：</strong>博时标普500联接A每日限购100元，每月250元需分3天买入。QDII基金赎回约7天到账，适合长期持有。</p>
+    </div>`;
+
+    section.innerHTML = html;
+}
+
+// ========== 定投方案概览 ==========
+function renderPlan() {
+    const section = document.getElementById('planSection');
+    const aSharePct = ((500 + 200 + 250) / 1200 * 100).toFixed(0);
+    const usSharePct = (250 / 1200 * 100).toFixed(0);
+    section.innerHTML = `
+    <h2>💰 我的定投方案（每月9日）</h2>
+    <div class="plan-grid">
+        <div class="plan-card card-hs300">
+            <div class="plan-icon">🇨🇳</div><div class="plan-name">沪深300</div>
+            <div class="plan-amount">500</div><div class="plan-unit">元/月</div>
+            <div class="plan-tag">PE百分位动态调仓</div>
+            <div class="plan-fund">110020 易方达联接A</div>
+        </div>
+        <div class="plan-card card-cyb">
+            <div class="plan-icon">🇨🇳</div><div class="plan-name">创业板</div>
+            <div class="plan-amount">200</div><div class="plan-unit">元/月</div>
+            <div class="plan-tag">PE百分位动态调仓</div>
+            <div class="plan-fund">110026 易方达联接A</div>
+        </div>
+        <div class="plan-card card-zz500">
+            <div class="plan-icon">🇨🇳</div><div class="plan-name">中证500</div>
+            <div class="plan-amount">250</div><div class="plan-unit">元/月</div>
+            <div class="plan-tag">PE百分位动态调仓</div>
+            <div class="plan-fund">160119 南方联接A</div>
+        </div>
+        <div class="plan-card card-sp500">
+            <div class="plan-icon">🇺🇸</div><div class="plan-name">标普500</div>
+            <div class="plan-amount">250</div><div class="plan-unit">元/月</div>
+            <div class="plan-tag">固定金额</div>
+            <div class="plan-fund">050025 博时联接A</div>
+        </div>
+    </div>
+    <div class="plan-summary">
+        <div class="plan-summary-item"><div class="sum-label">月定投总额</div><div class="sum-value">¥1,200</div></div>
+        <div class="plan-summary-item"><div class="sum-label">A股占比</div><div class="sum-value">${aSharePct}%</div></div>
+        <div class="plan-summary-item"><div class="sum-label">美股占比</div><div class="sum-value">${usSharePct}%</div></div>
+        <div class="plan-summary-item"><div class="sum-label">动态调仓</div><div class="sum-value">A股三只</div></div>
+    </div>
+    <div class="plan-rules">
+        📋 <strong>A股动态定投规则：</strong>PE百分位 0-30% → 1.5倍加仓 | 30-50% → 正常定投 | 50-70% → 0.7倍减量 | 70%+ → 暂停<br>
+        📋 <strong>标普500固定定投：</strong>美股PE百分位参考体系与A股不同，暂不动态调整，固定250元/月<br>
+        ⚠️ 标普500为QDII基金，每日限购100元，赎回T+7左右到账，适合长期持有
+    </div>`;
+}
+
+// ========== 术语解释折叠/展开 ==========
+function toggleGlossary() {
+    const content = document.getElementById('glossaryContent');
+    const btn = document.getElementById('toggleBtn');
+    if (content.style.display === 'none') {
+        content.style.display = 'block';
+        btn.textContent = '收起术语解释 ▲';
+    } else {
+        content.style.display = 'none';
+        btn.textContent = '展开术语解释 ▼';
+    }
+}
+
+// ========== 初始化 ==========
+renderPlan();
+renderPeCards();
+renderFundCards();
+renderPeDistChart();
+renderAllPeChart();
+renderNavChart();
+renderDailyReturnChart();
+renderReturnChart();
+renderAdvice();
+
+</script>
+</body>
+</html>
